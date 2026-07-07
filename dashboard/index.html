@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Release Gatekeeper — Release Risk Intelligence</title>
+    <meta name="description" content="Multi-Agent Release Risk Orchestration Platform. Analyze your GitHub PRs for deployment risk with AI-powered agents.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- ─── Header ─── -->
+    <header id="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M14 10L20 13V19L14 22L8 19V13L14 10Z" fill="currentColor" opacity="0.3"/>
+                        <circle cx="14" cy="14" r="3" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Release Gatekeeper</span>
+            </div>
+            <div class="header-status">
+                <div class="status-dot" id="statusDot"></div>
+                <span class="status-text" id="statusText">Connecting...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ─── Main Content ─── -->
+    <main id="mainContent">
+
+        <!-- ─── Hero / Input Section ─── -->
+        <section id="heroSection" class="section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-accent">Is this release</span>
+                    <span class="hero-highlight">safe to ship?</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Multi-agent AI analysis powered by <strong>CROO Network</strong>. 
+                    Four specialized agents analyze your PR for security, health, dependencies, and semantic risk.
+                </p>
+
+                <form id="analyzeForm" class="analyze-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="url" 
+                            id="prUrlInput" 
+                            placeholder="https://github.com/owner/repo/pull/123" 
+                            required
+                            autocomplete="off"
+                        >
+                        <button type="submit" id="analyzeBtn" class="btn-analyze">
+                            <span class="btn-text">Analyze</span>
+                            <span class="btn-loader" style="display:none;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" class="spin">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="32" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Agent Pills -->
+                <div class="agent-pills">
+                    <div class="agent-pill" data-agent="repo_doctor">
+                        <span class="pill-icon">🏥</span>
+                        <span>Repo Doctor</span>
+                    </div>
+                    <div class="agent-pill" data-agent="security_scanner">
+                        <span class="pill-icon">🔒</span>
+                        <span>Security Scanner</span>
+                    </div>
+                    <div class="agent-pill" data-agent="pr_describer">
+                        <span class="pill-icon">📝</span>
+                        <span>PR Describer</span>
+                    </div>
+                    <div class="agent-pill" data-agent="dependency_auditor">
+                        <span class="pill-icon">📦</span>
+                        <span>Dependency Auditor</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Analysis Progress ─── -->
+        <section id="progressSection" class="section" style="display:none;">
+            <div class="progress-container">
+                <h2 class="section-title">Analyzing Release...</h2>
+                <div class="progress-stages">
+                    <div class="stage" data-stage="fetching">
+                        <div class="stage-icon">📡</div>
+                        <div class="stage-info">
+                            <span class="stage-label">Fetching PR Data</span>
+                            <span class="stage-status">Waiting...</span>
+                        </div>
+                    </div>
+                    <div class="stage" data-stage="analyzing">
+                        <div class="stage-icon">🤖</div>
+                        <div class="stage-info">
+                            <span class="stage-label">Agent Analysis</span>
+                            <span class="stage-status">Waiting...</span>
+                        </div>
+                    </div>
+                    <div class="stage" data-stage="aggregating">
+                        <div class="stage-icon">⚡</div>
+                        <div class="stage-info">
+                            <span class="stage-label">Verdict Aggregation</span>
+                            <span class="stage-status">Waiting...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Verdict Section ─── -->
+        <section id="verdictSection" class="section" style="display:none;">
+
+            <!-- Verdict Hero Card -->
+            <div class="verdict-hero" id="verdictHero">
+                <div class="verdict-confidence">
+                    <div class="confidence-gauge" id="confidenceGauge">
+                        <svg viewBox="0 0 200 200" class="gauge-svg">
+                            <circle cx="100" cy="100" r="85" class="gauge-track"/>
+                            <circle cx="100" cy="100" r="85" class="gauge-fill" id="gaugeFill"/>
+                        </svg>
+                        <div class="gauge-inner">
+                            <span class="gauge-value" id="gaugeValue">--</span>
+                            <span class="gauge-label">Confidence</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="verdict-details">
+                    <div class="verdict-grade" id="verdictGrade">--</div>
+                    <div class="verdict-recommendation" id="verdictRecommendation">Analyzing...</div>
+                    <div class="verdict-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Rollback Risk</span>
+                            <span class="meta-value" id="rollbackRisk">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Blast Radius</span>
+                            <span class="meta-value" id="blastRadius">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value" id="analysisDuration">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues & Warnings -->
+            <div class="alerts-container" id="alertsContainer" style="display:none;">
+                <div class="alerts-block blocking-issues" id="blockingIssuesBlock" style="display:none;">
+                    <h3 class="alerts-title">🚫 Blocking Issues</h3>
+                    <ul class="alerts-list" id="blockingIssuesList"></ul>
+                </div>
+                <div class="alerts-block warnings" id="warningsBlock" style="display:none;">
+                    <h3 class="alerts-title">⚠️ Warnings</h3>
+                    <ul class="alerts-list" id="warningsList"></ul>
+                </div>
+            </div>
+
+            <!-- Agent Reports Grid -->
+            <div class="agent-grid" id="agentGrid">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Affected Areas -->
+            <div class="affected-areas" id="affectedAreas" style="display:none;">
+                <h3 class="areas-title">Affected Areas</h3>
+                <div class="areas-tags" id="areasTags"></div>
+            </div>
+        </section>
+
+        <!-- ─── History Section ─── -->
+        <section id="historySection" class="section">
+            <h2 class="section-title" id="historyTitle" style="display:none;">Recent Analyses</h2>
+            <div class="history-list" id="historyList"></div>
+        </section>
+    </main>
+
+    <!-- ─── Footer ─── -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <span>AI Release Gatekeeper</span>
+            <span class="footer-divider">·</span>
+            <span>Powered by <a href="https://croo.network" target="_blank">CROO Network</a></span>
+            <span class="footer-divider">·</span>
+            <span>CAP Protocol</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

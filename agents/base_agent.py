@@ -26,7 +26,11 @@ class BaseAgent:
     SYSTEM_PROMPT: str = "You are a helpful assistant."
 
     def __init__(self):
-        self.openai = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.openai = AsyncOpenAI(
+            api_key=os.getenv("LLM_API_KEY", os.getenv("OPENAI_API_KEY")),
+            base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"),
+        )
+        self.model_name = os.getenv("LLM_MODEL", "gpt-4o-mini")
         self.croo_key: str = ""
         self.croo_client = None
         self.stream = None
@@ -39,7 +43,7 @@ class BaseAgent:
         """Call OpenAI and parse structured JSON output."""
         try:
             response = await self.openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model=self.model_name,
                 messages=[
                     {"role": "system", "content": self.SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},

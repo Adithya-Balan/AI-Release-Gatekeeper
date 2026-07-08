@@ -10,7 +10,7 @@ This project was built for the **CROO Agent Hackathon**, specifically targeting 
 
 ---
 
-## 🏆 Hackathon Highlights: Why This Wins
+## Highlights:
 
 ### 1. A2A Composability at Scale
 This isn't a simple chatbot. AI Release Gatekeeper proves the power of **Agent-to-Agent (A2A) composability**. 

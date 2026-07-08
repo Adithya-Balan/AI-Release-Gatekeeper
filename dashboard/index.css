@@ -12,9 +12,9 @@
     --bg-elevated: #1e293b;
 
     /* Accent colors */
-    --accent-primary: #6366f1;
-    --accent-primary-glow: rgba(99, 102, 241, 0.25);
-    --accent-secondary: #818cf8;
+    --accent-primary: #f97316;
+    --accent-primary-glow: rgba(249, 115, 22, 0.25);
+    --accent-secondary: #fb923c;
     --accent-emerald: #34d399;
     --accent-emerald-glow: rgba(52, 211, 153, 0.2);
     --accent-amber: #fbbf24;
@@ -28,15 +28,15 @@
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    --text-accent: #a5b4fc;
+    --text-accent: #fdba74;
 
     /* Borders */
     --border-subtle: rgba(148, 163, 184, 0.08);
-    --border-active: rgba(99, 102, 241, 0.3);
+    --border-active: rgba(249, 115, 22, 0.3);
 
     /* Verdicts */
     --ready: #34d399;
-    --safe-monitoring: #6366f1;
+    --safe-monitoring: #f97316;
     --needs-attention: #fbbf24;
     --block: #fb7185;
 
@@ -168,8 +168,8 @@ a:hover {
 
 .nav-link.active {
     color: #fff;
-    background: rgba(99, 102, 241, 0.2);
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
+    background: rgba(249, 115, 22, 0.2);
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.15);
 }
 
 .header-status {
@@ -322,7 +322,7 @@ main {
 
 .btn-analyze {
     padding: var(--space-md) var(--space-xl);
-    background: linear-gradient(135deg, var(--accent-primary), #4f46e5);
+    background: linear-gradient(135deg, var(--accent-primary), #ea580c);
     color: white;
     border: none;
     cursor: pointer;
@@ -336,7 +336,7 @@ main {
     flex-shrink: 0;
 }
 .btn-analyze:hover {
-    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    background: linear-gradient(135deg, #ea580c, #c2410c);
 }
 .btn-analyze:active {
     transform: scale(0.98);
@@ -413,7 +413,7 @@ main {
 }
 .stage.active {
     border-color: var(--accent-primary);
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(249, 115, 22, 0.05);
 }
 .stage.complete {
     border-color: var(--accent-emerald);
@@ -550,9 +550,9 @@ main {
     border: 1px solid rgba(52, 211, 153, 0.2);
 }
 .verdict-recommendation.SAFE_WITH_MONITORING {
-    background: rgba(99, 102, 241, 0.12);
+    background: rgba(249, 115, 22, 0.12);
     color: var(--safe-monitoring);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(249, 115, 22, 0.2);
 }
 .verdict-recommendation.NEEDS_ATTENTION {
     background: rgba(251, 191, 36, 0.12);
@@ -771,8 +771,8 @@ main {
 
 .area-tag {
     padding: 4px 12px;
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    background: rgba(249, 115, 22, 0.1);
+    border: 1px solid rgba(249, 115, 22, 0.15);
     border-radius: var(--radius-full);
     font-size: 0.78rem;
     color: var(--accent-secondary);
@@ -861,6 +861,46 @@ main {
 .settings-placeholder {
     color: var(--text-muted);
     font-size: 0.95rem;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-width: 500px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.form-group input {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+.form-help {
+    font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
 

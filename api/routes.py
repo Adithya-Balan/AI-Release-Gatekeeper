@@ -5,11 +5,14 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+import json
+import os
 import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException
 
+from pydantic import BaseModel
 from orchestrator.aggregator import compute_verdict
 from orchestrator.schemas import (
     AnalyzeRequest,
@@ -22,8 +25,29 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-# In-memory store for analysis results
+HISTORY_FILE = "data/history.json"
 _analyses: dict[str, AnalysisResponse] = {}
+
+def _load_history():
+    global _analyses
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, "r") as f:
+                data = json.load(f)
+                for k, v in data.items():
+                    _analyses[k] = AnalysisResponse(**v)
+        except Exception as e:
+            logger.error(f"Failed to load history: {e}")
+
+def _save_history():
+    try:
+        os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
+        with open(HISTORY_FILE, "w") as f:
+            json.dump({k: v.model_dump(mode="json") for k, v in _analyses.items()}, f, indent=2)
+    except Exception as e:
+        logger.error(f"Failed to save history: {e}")
+
+_load_history()
 
 
 def _get_orchestrator():
@@ -61,6 +85,7 @@ async def submit_analysis(request: AnalyzeRequest):
         created_at=now,
     )
     _analyses[analysis_id] = response
+    _save_history()
 
     # Start analysis in background
     asyncio.create_task(_run_analysis(analysis_id, request.pr_url))
@@ -95,6 +120,54 @@ async def health_check():
         "mode": "croo" if orchestrator.use_croo else "local",
         "analyses_count": len(_analyses),
     }
+
+
+class SettingsUpdate(BaseModel):
+    github_token: str | None = None
+    llm_api_key: str | None = None
+    llm_model: str | None = None
+
+
+@router.get("/settings")
+async def get_settings():
+    """Get non-sensitive parts of settings."""
+    return {
+        "github_token_set": bool(os.getenv("GITHUB_TOKEN")),
+        "llm_api_key_set": bool(os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")),
+        "llm_model": os.getenv("LLM_MODEL", "gemini-2.5-flash"),
+    }
+
+
+@router.post("/settings")
+async def update_settings(settings: SettingsUpdate):
+    """Update settings in .env file (very simple implementation)."""
+    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+    
+    # Read current
+    lines = []
+    if os.path.exists(env_path):
+        with open(env_path, "r") as f:
+            lines = f.readlines()
+            
+    # Helper to update
+    def update_key(key: str, val: str):
+        if not val:
+            return
+        os.environ[key] = val
+        for i, line in enumerate(lines):
+            if line.startswith(f"{key}="):
+                lines[i] = f"{key}={val}\n"
+                return
+        lines.append(f"{key}={val}\n")
+
+    update_key("GITHUB_TOKEN", settings.github_token)
+    update_key("LLM_API_KEY", settings.llm_api_key)
+    update_key("LLM_MODEL", settings.llm_model)
+
+    with open(env_path, "w") as f:
+        f.writelines(lines)
+
+    return {"status": "success"}
 
 
 async def _run_analysis(analysis_id: str, pr_url: str):
@@ -138,6 +211,7 @@ async def _run_analysis(analysis_id: str, pr_url: str):
         # Step 4: Store result
         _analyses[analysis_id].status = AnalysisStatus.COMPLETED
         _analyses[analysis_id].verdict = verdict
+        _save_history()
 
         logger.info(
             f"[{analysis_id}] ✅ Analysis complete: "
@@ -150,3 +224,4 @@ async def _run_analysis(analysis_id: str, pr_url: str):
         logger.error(f"[{analysis_id}] ❌ Analysis failed: {e}", exc_info=True)
         _analyses[analysis_id].status = AnalysisStatus.FAILED
         _analyses[analysis_id].error = str(e)
+        _save_history()

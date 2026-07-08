@@ -27,8 +27,11 @@ const statusText = document.getElementById('statusText');
 document.addEventListener('DOMContentLoaded', () => {
     checkHealth();
     loadHistory();
+    loadSettings();
     analyzeForm.addEventListener('submit', handleSubmit);
     setupTabs();
+
+    document.getElementById('settingsForm').addEventListener('submit', saveSettings);
 });
 
 // ─── Tabs Navigation ───
@@ -501,6 +504,68 @@ async function viewAnalysis(analysisId) {
         }
     } catch (err) {
         console.error('View analysis error:', err);
+    }
+}
+
+// ─── Settings ───
+
+async function loadSettings() {
+    try {
+        const resp = await fetch(`${API_BASE}/settings`);
+        const data = await resp.json();
+
+        if (data.github_token_set) {
+            document.getElementById('ghTokenStatus').style.display = 'inline-block';
+        }
+        if (data.llm_api_key_set) {
+            document.getElementById('llmKeyStatus').style.display = 'inline-block';
+        }
+        
+        document.getElementById('llmModel').value = data.llm_model || '';
+
+    } catch (err) {
+        console.error('Settings load error:', err);
+    }
+}
+
+async function saveSettings(e) {
+    e.preventDefault();
+    const btn = document.getElementById('saveSettingsBtn');
+    btn.textContent = 'Saving...';
+    btn.disabled = true;
+
+    const payload = {
+        github_token: document.getElementById('githubToken').value.trim() || null,
+        llm_api_key: document.getElementById('llmApiKey').value.trim() || null,
+        llm_model: document.getElementById('llmModel').value.trim() || null
+    };
+
+    try {
+        const resp = await fetch(`${API_BASE}/settings`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+            btn.textContent = 'Saved!';
+            document.getElementById('githubToken').value = '';
+            document.getElementById('llmApiKey').value = '';
+            setTimeout(() => {
+                btn.textContent = 'Save Settings';
+                btn.disabled = false;
+                loadSettings();
+            }, 1500);
+        } else {
+            throw new Error('Failed to save');
+        }
+    } catch (err) {
+        console.error(err);
+        btn.textContent = 'Error!';
+        setTimeout(() => {
+            btn.textContent = 'Save Settings';
+            btn.disabled = false;
+        }, 1500);
     }
 }
 

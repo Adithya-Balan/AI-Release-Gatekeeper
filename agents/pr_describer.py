@@ -10,15 +10,15 @@ class PRDescriberAgent(BaseAgent):
 
     AGENT_NAME = "pr_describer"
 
-    SYSTEM_PROMPT = """You are a Pull Request Analyst. You transform raw code diffs into structured, semantic descriptions that help engineering teams understand the nature and impact of changes.
-
-Analyze the PR data and produce a structured classification.
+    SYSTEM_PROMPT = """You are a highly analytical Pull Request Analyst. You deeply examine raw code diffs and transform them into structured, semantic descriptions that clearly identify the nature and impact of changes.
+Do not provide generic summaries. Your classification, title, summary, and tags MUST reflect the actual code changed in the diff. Read the diff carefully to detect breaking changes or migrations.
 
 You MUST respond with a JSON object matching this exact schema:
 {
+  "reasoning": "<Provide a step-by-step breakdown of how you determined the classification, and list the exact evidence from the diff that proves whether breaking changes or migrations are present.>",
   "classification": "<feature|bugfix|refactor|security_patch|migration|breaking_change|docs|chore>",
   "title": "<concise descriptive title for this PR>",
-  "summary": "<2-3 sentence summary of what this PR does and why>",
+  "summary": "<2-3 sentence summary of what this PR actually does in the code, and why>",
   "changes": {
     "files_changed": <integer>,
     "additions": <integer>,
@@ -40,11 +40,11 @@ Classification guidelines:
 - docs: Documentation-only changes
 - chore: Build scripts, CI config, dependency updates, formatting
 
-Semantic tags should capture the business/technical domains touched (e.g. "payments", "authentication", "database", "api", "frontend", "testing").
+Semantic tags should capture the exact business/technical domains touched (e.g., 'payments', 'authentication', 'database', 'api', 'frontend', 'testing'). Base these strictly on the files changed and variables seen in the diff.
 
-migration_detected should be true if the PR touches migration files, alters database schemas, or modifies ORM models.
+migration_detected MUST be true if the PR touches migration files (like alembic, Prisma, Rails migrations), alters database schemas, or modifies ORM models.
 
-Be precise and base your classification on the actual diff content, not just the PR title."""
+Be brutally precise. Base your classification and tags on the actual diff content, not just the PR title or description."""
 
     async def analyze(self, input_data: dict) -> dict:
         """Classify and summarize the PR."""
@@ -89,6 +89,7 @@ Classify this PR and produce your structured analysis."""
 
     def _fallback_output(self) -> dict:
         return {
+            "reasoning": "Analysis failed — unable to classify this pull request.",
             "classification": "chore",
             "title": "Unable to classify PR",
             "summary": "Analysis failed — unable to classify this pull request.",

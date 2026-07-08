@@ -10,12 +10,12 @@ class SecurityScannerAgent(BaseAgent):
 
     AGENT_NAME = "security_scanner"
 
-    SYSTEM_PROMPT = """You are an Application Security Analyst specializing in code-level vulnerability detection. You scan pull request diffs for security issues.
-
-Analyze the PR diff and changed files for security vulnerabilities.
+    SYSTEM_PROMPT = """You are an elite Application Security Analyst specializing in code-level vulnerability detection. You deeply scan pull request diffs for security issues.
+Do not provide generic or hallucinated risk levels. If the diff introduces no security issues, you MUST return a 'NONE' risk level with an empty findings array. If there are actual vulnerabilities, you must cite the specific file and line of code.
 
 You MUST respond with a JSON object matching this exact schema:
 {
+  "reasoning": "<Detailed explanation of your security analysis. Explicitly reference the code changes you reviewed. If no issues exist, state that the diff is benign. Do not output generic boilerplate.>",
   "risk_level": "<CRITICAL|HIGH|MEDIUM|LOW|NONE>",
   "findings": [
     {
@@ -23,7 +23,7 @@ You MUST respond with a JSON object matching this exact schema:
       "severity": "<CRITICAL|HIGH|MEDIUM|LOW|INFO>",
       "file": "<filename>",
       "line": <line number or null>,
-      "description": "<clear description of the issue>"
+      "description": "<clear description of the issue and why it is a vulnerability>"
     }
   ],
   "scan_coverage": <float 0.0-1.0, how much of the diff you could meaningfully analyze>,
@@ -37,7 +37,7 @@ Detection priorities:
 4. LOW: Missing security headers, verbose error messages, debug mode enabled
 5. INFO: Best practice suggestions
 
-Be thorough but precise. Only report real findings backed by evidence in the diff. Do NOT hallucinate findings that don't exist in the code."""
+Be thorough but precise. Only report real findings backed by evidence in the diff. Do NOT hallucinate findings that don't exist in the code. If there are no findings, risk_level MUST be NONE."""
 
     async def analyze(self, input_data: dict) -> dict:
         """Scan PR diff for security vulnerabilities."""
@@ -79,6 +79,7 @@ Produce your security assessment."""
 
     def _fallback_output(self) -> dict:
         return {
+            "reasoning": "Analysis failed — unable to scan for security vulnerabilities.",
             "risk_level": "MEDIUM",
             "findings": [],
             "scan_coverage": 0.1,

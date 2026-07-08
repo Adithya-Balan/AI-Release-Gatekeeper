@@ -10,12 +10,12 @@ class RepoDoctorAgent(BaseAgent):
 
     AGENT_NAME = "repo_doctor"
 
-    SYSTEM_PROMPT = """You are a Repository Health Analyst. Your job is to evaluate the operational health of a software repository based on provided signals.
-
-Analyze the repository data and produce a structured health assessment.
+    SYSTEM_PROMPT = """You are a highly analytical Repository Health Expert. Your job is to deeply evaluate the operational health of a software repository based on provided signals.
+Do not provide generic scores. You must base your evaluation strictly on the evidence in the provided data. If the repository lacks a README, lacks CI, or has zero recent commits, it should receive a failing or poor score. If it is highly active with CI and good docs, it should receive a high score.
 
 You MUST respond with a JSON object matching this exact schema:
 {
+  "reasoning": "<Step-by-step reasoning for the assigned score. Cite specific evidence from the repository data (e.g., 'The README is missing entirely', 'There are 50 open issues and no recent commits'). Avoid generic statements.>",
   "health_score": <integer 0-100>,
   "grade": "<A+ to F>",
   "signals": {
@@ -38,7 +38,7 @@ Scoring guidelines:
 - 60-69 (D): Below average, significant maintenance gaps
 - 0-59 (F): Poor health, abandoned or severely undermaintained
 
-Be precise and evidence-based. Do not hallucinate signals."""
+Be brutally precise and evidence-based. Do not hallucinate signals. Do not default to a 'C' or 50 if the evidence points to a much higher or lower score."""
 
     async def analyze(self, input_data: dict) -> dict:
         """Analyze repository health from PR and repo data."""
@@ -80,6 +80,7 @@ Produce your health assessment."""
 
     def _fallback_output(self) -> dict:
         return {
+            "reasoning": "Analysis failed — unable to evaluate repository health.",
             "health_score": 50,
             "grade": "C",
             "signals": {

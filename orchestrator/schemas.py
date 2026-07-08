@@ -144,6 +144,7 @@ class RepoHealthSignals(BaseModel):
 class RepoDoctorOutput(BaseModel):
     """Output from the Repo Doctor agent."""
 
+    reasoning: str = Field(description="Step-by-step reasoning for the assigned score based on specific repository signals.")
     health_score: int = Field(ge=0, le=100)
     grade: str = Field(pattern=r"^[A-F][+-]?$")
     signals: RepoHealthSignals
@@ -162,6 +163,7 @@ class SecurityFinding(BaseModel):
 class SecurityScannerOutput(BaseModel):
     """Output from the Security Scanner agent."""
 
+    reasoning: str = Field(description="Detailed explanation of why the risk level was chosen and analysis of specific code changes.")
     risk_level: RiskLevel
     findings: list[SecurityFinding] = Field(default_factory=list)
     scan_coverage: float = Field(ge=0.0, le=1.0)
@@ -177,6 +179,7 @@ class PRChangeStats(BaseModel):
 class PRDescriberOutput(BaseModel):
     """Output from the PR Describer agent."""
 
+    reasoning: str = Field(description="Explanation of the classification and any breaking changes or migrations detected.")
     classification: PRClassification
     title: str
     summary: str
@@ -199,6 +202,7 @@ class DependencyFinding(BaseModel):
 class DependencyAuditorOutput(BaseModel):
     """Output from the Dependency Auditor agent."""
 
+    reasoning: str = Field(description="Explanation of dependency risk analysis based on the specific packages modified.")
     risk_level: RiskLevel
     dependencies_changed: int = 0
     findings: list[DependencyFinding] = Field(default_factory=list)

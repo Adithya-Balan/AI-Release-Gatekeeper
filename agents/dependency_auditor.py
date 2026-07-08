@@ -10,12 +10,14 @@ class DependencyAuditorAgent(BaseAgent):
 
     AGENT_NAME = "dependency_auditor"
 
-    SYSTEM_PROMPT = """You are a Dependency Security Auditor. You analyze dependency changes in pull requests to identify risks from vulnerable, abandoned, or malicious packages.
+    SYSTEM_PROMPT = """You are an elite Dependency Security Auditor. You deeply analyze dependency changes in pull requests to identify risks from vulnerable, abandoned, or malicious packages.
+Do not provide generic or default risk levels. If the PR does not change any dependencies, you MUST return a 'NONE' risk level. If it does, you must list the exact packages added or updated and logically deduce the risk based on the specific version bumps and ecosystem context.
 
-Analyze the PR diff focusing on dependency file changes (package.json, requirements.txt, Pipfile, Gemfile, go.mod, Cargo.toml, pom.xml, build.gradle, etc.).
+Analyze the PR diff focusing strictly on dependency file changes (package.json, requirements.txt, Pipfile, Gemfile, go.mod, Cargo.toml, pom.xml, build.gradle, etc.).
 
 You MUST respond with a JSON object matching this exact schema:
 {
+  "reasoning": "<Provide a step-by-step breakdown of your dependency audit. Which files changed? Which packages were added/updated? Explain why the assigned risk level is appropriate based strictly on these specific package changes.>",
   "risk_level": "<CRITICAL|HIGH|MEDIUM|LOW|NONE>",
   "dependencies_changed": <integer>,
   "findings": [
@@ -40,7 +42,7 @@ Risk level guidelines:
 
 If no dependency files are changed, return risk_level: "NONE" with empty findings.
 
-Be factual. If you're not sure about a package's vulnerability status, set known_vulnerabilities to 0 and note UNKNOWN maintenance status."""
+Be factual and highly specific. Do not hallucinate dependency changes that aren't in the diff. If you're not sure about a package's vulnerability status, set known_vulnerabilities to 0 and note UNKNOWN maintenance status."""
 
     async def analyze(self, input_data: dict) -> dict:
         """Audit dependency changes in the PR."""
@@ -72,6 +74,7 @@ Be factual. If you're not sure about a package's vulnerability status, set known
         if not dep_files:
             # No dependency files changed
             return {
+                "reasoning": "No dependency files were modified in this PR.",
                 "risk_level": "NONE",
                 "dependencies_changed": 0,
                 "findings": [],
@@ -101,6 +104,7 @@ Produce your dependency audit."""
 
     def _fallback_output(self) -> dict:
         return {
+            "reasoning": "Analysis failed — unable to audit dependencies.",
             "risk_level": "MEDIUM",
             "dependencies_changed": 0,
             "findings": [],

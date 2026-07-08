@@ -44,6 +44,7 @@ class GitHubService:
             base_url=GITHUB_API,
             headers=headers,
             timeout=30.0,
+            follow_redirects=True,
         )
 
     async def close(self):

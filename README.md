@@ -1,80 +1,126 @@
-# 🛡️ AI Release Gatekeeper
+<div align="center">
+  <img src="assets/Orchestrator.png" alt="AI Release Gatekeeper Logo" width="200" />
+  
+  # 🛡️ AI Release Gatekeeper
+  **The Multi-Agent Deployment Risk Orchestration Platform**
 
-**The Multi-Agent Release Risk Orchestration Platform**
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+  [![CROO Agent Store](https://img.shields.io/badge/Listed_on-CROO_Agent_Store-FF4B4B.svg)](https://agent.croo.network)
+  [![CAP Protocol](https://img.shields.io/badge/Powered_by-CAP-00E5FF.svg)](https://croo.network)
+  [![Render Deploy](https://img.shields.io/badge/Deployed_on-Render-46E3B7.svg)](https://render.com)
 
-> *"Is this release safe to ship?"*
-
-**AI Release Gatekeeper** is a production-focused multi-agent orchestration platform built on the **[CROO Network](https://croo.network)** and powered by **CAP (CROO Agent Protocol)**. Instead of relying on a single AI model or static CI checks, it coordinates **four independently deployed specialized agents** that collaborate, negotiate, analyze, score, and aggregate release intelligence into a final deployment verdict.
-
-This project was built for the **CROO Agent Hackathon**, specifically targeting the **Developer Tooling Agents** and **Open – Any A2A Agents** tracks.
-
----
-
-## Highlights:
-
-### 1. A2A Composability at Scale
-This isn't a simple chatbot. AI Release Gatekeeper proves the power of **Agent-to-Agent (A2A) composability**. 
-- **1 Requester Agent** (The Orchestrator) automatically hires **4 distinct Provider Agents** (Repo Doctor, Security Scanner, PR Describer, Dependency Auditor).
-- Each provider agent is a completely isolated service, hired dynamically via CAP to perform a specialized intelligence task.
-
-### 2. Deep CAP & On-Chain Commerce Integration
-The Orchestrator uses the official `croo-sdk` to execute real financial transactions for intelligence.
-- **Negotiation:** The orchestrator discovers and negotiates pricing with each of the 4 agents.
-- **Escrow:** USDC is locked on-chain via CAPVault for each task.
-- **Delivery:** The agents run their respective LLM-powered analyses and deliver structured JSON schema outputs back to the orchestrator.
-- **Settlement:** The orchestrator aggregates the intelligence into a final deployment confidence score and settles the USDC payments.
-
-### 3. Real Operational Utility
-It solves a massive engineering pain point: passing CI tests doesn't mean a release is safe. By computing **Rollback Probability**, **Blast Radius**, and a **Deployment Confidence Score**, this platform serves as actual Release Intelligence Infrastructure, not just a toy.
+  > *"Passing CI doesn't mean it's safe. AI Release Gatekeeper answers the only question that matters: **Is this release safe to ship?***"
+</div>
 
 ---
 
-## 🏗️ Architecture
+## 📖 Table of Contents
+- [Executive Summary](#-executive-summary)
+- [The Orchestration Flow (A2A)](#-the-orchestration-flow-a2a)
+- [Meet the Agents](#-meet-the-agents)
+- [CAP Protocol Integration](#-cap-protocol-integration)
+- [Feature Comparison](#-feature-comparison)
+- [Commercial Value & Innovation](#-commercial-value--innovation)
+- [Quick Start: Local & CROO Modes](#-quick-start-local--croo-modes)
+- [Cloud Deployment (Render)](#-cloud-deployment-render)
+- [Technical Stack](#-technical-stack)
+- [Roadmap & Contributing](#-roadmap--contributing)
 
-```text
-GitHub PR URL
-      ↓
-FastAPI Orchestrator (CROO Requester)
-      ↓
-─────────────────────────────────
-  Parallel CAP Agent Execution (A2A)
-─────────────────────────────────
-│ 🏥 Repo Doctor Agent          │
-│ 🔒 Security Scanner Agent     │
-│ 📝 PR Describer Agent         │
-│ 📦 Dependency Auditor Agent   │
-─────────────────────────────────
-      ↓
-Verdict Aggregation Engine (JSON Delivery)
-      ↓
-Final Release Verdict
-      ↓
-READY / SAFE_WITH_MONITORING / NEEDS_ATTENTION / BLOCK
+---
+
+## 🚀 Executive Summary
+
+Modern software releases fail because teams lack centralized deployment intelligence. CI/CD pipelines tell you if the code compiles, but they cannot tell you if the release will cause a production outage. 
+
+**AI Release Gatekeeper** is a production-grade orchestration engine built on the **[CROO Network](https://croo.network)** using the **CROO Agent Protocol (CAP)**. Instead of relying on a single "mega-prompt" LLM, it demonstrates true **A2A (Agent-to-Agent) Composability**. 
+
+One central Orchestrator dynamically hires **four independently deployed, specialized AI agents**, pays them in USDC on-chain, and aggregates their intelligence to compute **Rollback Probability**, **Blast Radius**, and a final **Deployment Confidence Score**.
+
+---
+
+## 🏗️ The Orchestration Flow (A2A)
+
+The platform utilizes a concurrent fan-out/fan-in architecture governed by CAP.
+
+```mermaid
+graph TD
+    User([👨‍💻 User / DevOps]) -->|Submits PR URL| O[🛡️ Orchestrator Agent]
+    
+    subgraph A2A Commerce on CROO Network
+        O -->|Negotiates & Pays 0.01 USDC| A1(🏥 Repo Doctor)
+        O -->|Negotiates & Pays 0.01 USDC| A2(🔒 Security Scanner)
+        O -->|Negotiates & Pays 0.01 USDC| A3(📝 PR Describer)
+        O -->|Negotiates & Pays 0.01 USDC| A4(📦 Dependency Auditor)
+    end
+    
+    A1 -->|Delivers Schema| Agg{Aggregator Engine}
+    A2 -->|Delivers Schema| Agg
+    A3 -->|Delivers Schema| Agg
+    A4 -->|Delivers Schema| Agg
+    
+    Agg -->|Computes Confidence| O
+    O -->|Displays Dashboard| User
+    
+    style O fill:#FF4B4B,stroke:#fff,color:#fff
+    style Agg fill:#1E293B,stroke:#fff,color:#fff
 ```
 
 ---
 
-## 💻 CROO SDK Methods Used
+## 🤖 Meet the Agents
 
-The platform deeply integrates with the `croo-sdk`. Key methods utilized across the Orchestrator and Agents include:
+The platform is powered by 5 distinct, monetizable agents. Each provider agent is an independent entity with its own wallet, pricing, and specialized LLM prompt.
 
-**Requester (Orchestrator):**
-- `AgentClient.negotiate_order()`: Initiates hiring of the 4 sub-agents.
-- `AgentClient.pay_order()`: Locks USDC on-chain for the tasks.
-- `AgentClient.get_delivery()`: Retrieves the structured JSON schemas once agents finish.
-- WebSocket Event Listeners: Listens for `ORDER_CREATED` and `ORDER_COMPLETED` to maintain parallel execution state.
+<div align="center">
 
-**Providers (Specialized Agents):**
-- `AgentClient.accept_negotiation()`: Automatically accepts incoming jobs.
-- `AgentClient.get_order()` & `get_negotiation()`: Extracts the PR data requirements.
-- `AgentClient.deliver_order()`: Returns the completed AI analysis wrapped in a `DeliverableType.SCHEMA`.
-- WebSocket Event Listeners: Listens for `NEGOTIATION_CREATED` and `ORDER_PAID`.
+| Agent | Responsibility | Output Schema |
+|:---:|---|---|
+| <img src="assets/Orchestrator.png" width="60"><br>**Orchestrator** | **The Requester:** Hires sub-agents, orchestrates the CAP lifecycle, aggregates risk scoring, and hosts the FastAPI dashboard. | `ReleaseVerdict` |
+| <img src="assets/repo-doctor.png" width="60"><br>**Repo Doctor** | **Provider:** Evaluates overall repository health, commit frequency, issue ratios, and CI hygiene. | `HealthScore` |
+| <img src="assets/security-scanner.png" width="60"><br>**Security Scanner** | **Provider:** Scans code diffs for secrets, SQL injections, and logic vulnerabilities. | `SecurityRisk` |
+| <img src="assets/PR-Describer.png" width="60"><br>**PR Describer** | **Provider:** Semantically classifies PRs, detects breaking changes, and database migrations. | `SemanticSummary` |
+| <img src="assets/dependency-auditor.png" width="60"><br>**Dependency Auditor**| **Provider:** Audits modified manifests for vulnerable, abandoned, or dangerous packages. | `SupplyChainRisk`|
+
+</div>
 
 ---
 
-## 🚀 Quick Start (Local & CROO Modes)
+## 💎 Commercial Value & Innovation
 
-The system is built to fallback gracefully to **Local Mode** for easy testing without deploying 5 agents to the CROO dashboard, but natively supports **CROO Mode** for full A2A commerce.
+This project was built for the **CROO Agent Hackathon**, perfectly targeting the core philosophy of the network:
+
+1. **Monetizable Infrastructure:** The sub-agents are listed as independent services on the CROO Store. Other developers can hire our *Security Scanner* without needing the whole gatekeeper.
+2. **Predictive Analytics:** It moves beyond generic summaries by calculating actionable metrics like `Rollback Probability` and `Blast Radius`.
+3. **Fault-Tolerant Settlement:** Built strictly on the CAP state machine. Even if an LLM is rate-limited, agents utilize a fallback system to ensure valid schema delivery and atomic settlement.
+
+---
+
+## ⚡ CAP Protocol Integration
+
+The platform deeply implements the `croo-sdk` for a flawless transactional lifecycle.
+
+- **`negotiate_order()`:** Orchestrator queries the CROO network for the service price.
+- **`pay_order()`:** Orchestrator locks USDC into the CAPVault escrow.
+- **`accept_negotiation()` & `deliver_order()`:** Providers wait for the `ORDER_PAID` event, execute their heavy LLM inferences, and securely deliver the results back.
+- **WebSocket Streaming:** Both requester and providers rely heavily on real-time event streaming (`NEGOTIATION_CREATED`, `ORDER_COMPLETED`) for rapid, concurrent execution.
+
+---
+
+## ⚖️ Feature Comparison
+
+| Feature | Generic AI Reviewers | CI/CD (GitHub Actions) | **AI Release Gatekeeper** |
+|---------|----------------------|------------------------|---------------------------|
+| **Syntax Checking** | ❌ (Usually weak) | ✅ Perfect | ➖ Delegates to CI |
+| **Logic & Context** | ✅ Good | ❌ None | ✅ **Excellent** |
+| **Risk Prediction** | ❌ None | ❌ None | ✅ **Rollback & Blast Radius** |
+| **Architecture** | Single Monolithic LLM | Static Scripts | ✅ **Decentralized A2A Swarm** |
+| **Pricing Model** | Expensive Subscriptions | Usage-based compute | ✅ **Pay-per-Agent (0.01 USDC)** |
+
+---
+
+## 🚀 Quick Start: Local & CROO Modes
+
+The system gracefully falls back to **Local Mode** for easy testing (running agents in-process), but natively supports **CROO Mode** for full A2A commerce.
 
 ### 1. Install Dependencies
 ```bash
@@ -89,35 +135,55 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 ```
-Edit `.env` and add:
-- `GITHUB_TOKEN`: A read-only classic token (required to fetch PR diffs).
-- `LLM_API_KEY`: Your Groq or OpenAI API key.
-- *For CROO Mode:* Add your `CROO_ORCHESTRATOR_KEY` and the 4 `SERVICE_ID`s from the CROO dashboard.
+Edit `.env` to include:
+- `GITHUB_TOKEN`: Read-only classic token (required to fetch PR diffs without rate-limiting).
+- `LLM_API_KEY`: Groq, OpenAI, or Gemini key.
+- `CROO_ORCHESTRATOR_KEY` & `CROO_*_SERVICE_ID`: (For CROO Mode).
 
 ### 3. Run the Platform
 ```bash
 python run_orchestrator.py
 ```
-Open **http://localhost:8000** to access the premium, hackathon-ready dashboard!
+Visit **http://localhost:8000** to access the dashboard. 
 
-### 4. (Optional) Run CROO Provider Agents
-If running in full CROO mode, start the provider agents in a separate terminal to listen for orders:
-```bash
-python run_agents.py
-```
+*(If running in CROO mode, start the providers in a separate terminal: `python run_agents.py`)*
 
 ---
 
-## 🤖 The Agents
+## ☁️ Cloud Deployment (Render)
 
-| Agent | Responsibility | CAP Output Delivery |
-|-------|---------------|--------|
-| **Repo Doctor** | Repository operational health | Health score, grade, recommendations |
-| **Security Scanner** | Vulnerability detection in diffs | Risk level, findings with severity |
-| **PR Describer** | Semantic PR classification | Type, summary, breaking changes, migration detection |
-| **Dependency Auditor** | Dependency risk analysis | Risk level, package findings |
+Deploy the entire platform on the **Render Free Tier**:
+
+1. Create a new **Web Service** on Render connected to this repository.
+2. **Build Command:** `pip install -r requirements.txt`
+3. **Start Command:** `python run_agents.py & uvicorn api.app:app --host 0.0.0.0 --port $PORT`
+4. Add your `.env` variables in the dashboard.
+5. Deploy! Both the Orchestrator and Providers will run simultaneously.
+
+*For comprehensive CROO agent setup, see our detailed [Deployment Guide](docs/deployment_guide.md).*
 
 ---
 
-## 📄 License
-This project is open-source and licensed under the **MIT License**.
+## 🛠️ Technical Stack
+
+- **Backend / API:** FastAPI, Uvicorn, Python 3.10+
+- **Agent Intelligence:** `llama-3.3-70b-versatile` (via Groq), OpenAI standard.
+- **A2A Network:** `croo-sdk`, WebSocket Event Streaming, USDC Settlement.
+- **Frontend:** Vanilla HTML/CSS/JS (Custom "Orange" Glassmorphism UI).
+- **Persistence:** Local JSON file persistence (Ready for PostgreSQL).
+
+---
+
+## 🛣️ Roadmap & Contributing
+
+- [x] Phase 1: A2A Orchestration & CAP Integration
+- [x] Phase 2: Rollback Prediction Engine
+- [ ] Phase 3: Automated autonomous rollback execution based on telemetry.
+- [ ] Phase 4: Slack/Discord Integration for deployment approvals.
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or new agent capabilities.
+
+---
+<div align="center">
+  <i>Built for the CROO Agent Hackathon 2026.</i>
+</div>

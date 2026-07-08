@@ -102,5 +102,305 @@
     },
     "error": null,
     "created_at": "2026-07-08T13:47:32.805932+00:00"
+  },
+  "30108e52-166": {
+    "analysis_id": "30108e52-166",
+    "status": "completed",
+    "pr_url": "https://github.com/n8n-io/n8n/pull/33833",
+    "verdict": {
+      "analysis_id": "30108e52-166",
+      "pr_url": "https://github.com/n8n-io/n8n/pull/33833",
+      "deployment_confidence": 29,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.71,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Unable to fully analyze repository health"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 1962,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to evaluate repository health.",
+            "health_score": 50,
+            "grade": "C",
+            "signals": {
+              "readme_quality": "FAIR",
+              "commit_frequency": "MODERATE",
+              "test_presence": false,
+              "stale_branches": 0,
+              "open_issues": 0,
+              "ci_configured": false,
+              "license_present": false
+            },
+            "recommendations": [
+              "Unable to fully analyze repository health"
+            ],
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 2066,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to scan for security vulnerabilities.",
+            "risk_level": "MEDIUM",
+            "findings": [],
+            "scan_coverage": 0.1,
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 2028,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to classify this pull request.",
+            "classification": "chore",
+            "title": "Unable to classify PR",
+            "summary": "Analysis failed \u2014 unable to classify this pull request.",
+            "changes": {
+              "files_changed": 2,
+              "additions": 38,
+              "deletions": 15
+            },
+            "semantic_tags": [],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-08T13:50:59.343279+00:00",
+      "total_duration_ms": 6236
+    },
+    "error": null,
+    "created_at": "2026-07-08T13:50:53.104267+00:00"
+  },
+  "b327ea95-845": {
+    "analysis_id": "b327ea95-845",
+    "status": "completed",
+    "pr_url": "https://github.com/expressjs/express/pull/7367",
+    "verdict": {
+      "analysis_id": "b327ea95-845",
+      "pr_url": "https://github.com/expressjs/express/pull/7367",
+      "deployment_confidence": 29,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.71,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Unable to fully analyze repository health"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 2003,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to evaluate repository health.",
+            "health_score": 50,
+            "grade": "C",
+            "signals": {
+              "readme_quality": "FAIR",
+              "commit_frequency": "MODERATE",
+              "test_presence": false,
+              "stale_branches": 0,
+              "open_issues": 0,
+              "ci_configured": false,
+              "license_present": false
+            },
+            "recommendations": [
+              "Unable to fully analyze repository health"
+            ],
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 2008,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to scan for security vulnerabilities.",
+            "risk_level": "MEDIUM",
+            "findings": [],
+            "scan_coverage": 0.1,
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 2178,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to classify this pull request.",
+            "classification": "chore",
+            "title": "Unable to classify PR",
+            "summary": "Analysis failed \u2014 unable to classify this pull request.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 2,
+              "deletions": 2
+            },
+            "semantic_tags": [],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-08T13:54:31.011772+00:00",
+      "total_duration_ms": 6101
+    },
+    "error": null,
+    "created_at": "2026-07-08T13:54:24.908697+00:00"
+  },
+  "401c34d5-dd0": {
+    "analysis_id": "401c34d5-dd0",
+    "status": "completed",
+    "pr_url": "https://github.com/n8n-io/n8n/pull/33833",
+    "verdict": {
+      "analysis_id": "401c34d5-dd0",
+      "pr_url": "https://github.com/n8n-io/n8n/pull/33833",
+      "deployment_confidence": 95,
+      "grade": "A+",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.05,
+      "blast_radius": "MEDIUM",
+      "affected_areas": [
+        "error_handling",
+        "security",
+        "file_system"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Add a license to the repository to clarify the terms of use and distribution",
+        "\ud83c\udfe5 Consider implementing a more robust issue management process to address the high number of open issues",
+        "\ud83c\udfe5 Continue to maintain a high level of commit frequency and active maintenance to ensure the project remains healthy and up-to-date"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 1746,
+          "output": {
+            "reasoning": "The repository has a high-quality README with detailed information about the project, including its capabilities, quick start guide, and resources. The presence of a license is missing, which is a notable gap. The repository has a very active commit frequency with recent commits, indicating active maintenance. It also has CI configured, which is a positive signal. The presence of 1448 open issues is a concern, but the recent commits and active maintenance suggest that the project is being actively worked on. The test presence is not explicitly mentioned, but the presence of CI suggests that tests are likely being run.",
+            "health_score": 92,
+            "grade": "A",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 1448,
+              "ci_configured": true,
+              "license_present": false
+            },
+            "recommendations": [
+              "Add a license to the repository to clarify the terms of use and distribution",
+              "Consider implementing a more robust issue management process to address the high number of open issues",
+              "Continue to maintain a high level of commit frequency and active maintenance to ensure the project remains healthy and up-to-date"
+            ],
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 710,
+          "output": {
+            "reasoning": "The diff introduces changes to error messages related to file access restrictions. The changes do not introduce any security vulnerabilities such as hardcoded secrets, injection vulnerabilities, authentication bypasses, insecure data handling, or unsafe operations. The code appears to be following best practices for handling file access and error messages.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 7528,
+          "output": {
+            "reasoning": "The PR updates the error message for file write operations to include allowed paths when the `isFilePathBlocked` check fails. This change is reflected in the `file-system-helper-functions.ts` and `file-system-helper-functions.test.ts` files. The introduction of the `createBlockedPathError` function in `file-system-helper-functions.ts` simplifies the error handling logic and makes it more consistent. The test cases in `file-system-helper-functions.test.ts` have been updated to cover the new error message behavior. Based on the changes, this PR is classified as a bugfix because it improves the error handling and provides more informative error messages to users.",
+            "classification": "bugfix",
+            "title": "Update error message for file write operations",
+            "summary": "This PR updates the error message for file write operations to include allowed paths when the `isFilePathBlocked` check fails, providing more informative error messages to users. The changes are reflected in the `file-system-helper-functions.ts` and `file-system-helper-functions.test.ts` files.",
+            "changes": {
+              "files_changed": 2,
+              "additions": 38,
+              "deletions": 15
+            },
+            "semantic_tags": [
+              "file_system",
+              "error_handling",
+              "security"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-08T14:11:03.476377+00:00",
+      "total_duration_ms": 14127
+    },
+    "error": null,
+    "created_at": "2026-07-08T14:10:49.345109+00:00"
   }
 }

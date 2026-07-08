@@ -221,15 +221,15 @@ class OrchestratorClient:
             raise TimeoutError(f"Timeout waiting for {event_type} (ref: {reference_id})")
 
     async def _run_local_analysis(self, input_data: dict) -> dict[str, AgentReport]:
-        """Execute analysis locally (no CROO). Runs all agents in parallel."""
+        """Execute analysis locally (no CROO). Runs agents sequentially to respect rate limits."""
         reports = {}
 
-        async def run_agent(name: str, agent):
+        for name, agent in self._local_agents.items():
             start = time.time()
             try:
                 result = await agent.analyze(input_data)
                 duration_ms = int((time.time() - start) * 1000)
-                return AgentReport(
+                reports[name] = AgentReport(
                     agent_name=name,
                     status="completed",
                     duration_ms=duration_ms,
@@ -238,23 +238,13 @@ class OrchestratorClient:
             except Exception as e:
                 duration_ms = int((time.time() - start) * 1000)
                 logger.error(f"[{name}] Local analysis failed: {e}")
-                return AgentReport(
+                reports[name] = AgentReport(
                     agent_name=name,
                     status="failed",
                     duration_ms=duration_ms,
                     output=agent._fallback_output(),
                     error=str(e),
                 )
-
-        tasks = [
-            run_agent(name, agent)
-            for name, agent in self._local_agents.items()
-        ]
-
-        results = await asyncio.gather(*tasks)
-
-        for report in results:
-            reports[report.agent_name] = report
 
         return reports
 

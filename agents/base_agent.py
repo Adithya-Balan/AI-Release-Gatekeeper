@@ -40,28 +40,42 @@ class BaseAgent:
         raise NotImplementedError
 
     async def _llm_analyze(self, user_prompt: str, max_tokens: int = 2000) -> dict:
-        """Call OpenAI and parse structured JSON output."""
-        try:
-            response = await self.openai.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "system", "content": self.SYSTEM_PROMPT},
-                    {"role": "user", "content": user_prompt},
-                ],
-                temperature=0.2,
-                max_tokens=max_tokens,
-                response_format={"type": "json_object"},
-            )
+        """Call OpenAI-compatible LLM and parse structured JSON output.
+        
+        Includes retry logic for rate-limit (429) errors.
+        """
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = await self.openai.chat.completions.create(
+                    model=self.model_name,
+                    messages=[
+                        {"role": "system", "content": self.SYSTEM_PROMPT},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=0.2,
+                    max_tokens=max_tokens,
+                    response_format={"type": "json_object"},
+                )
 
-            content = response.choices[0].message.content
-            return json.loads(content)
+                content = response.choices[0].message.content
+                return json.loads(content)
 
-        except json.JSONDecodeError as e:
-            logger.error(f"[{self.AGENT_NAME}] Failed to parse LLM JSON: {e}")
-            return self._fallback_output()
-        except Exception as e:
-            logger.error(f"[{self.AGENT_NAME}] LLM analysis failed: {e}")
-            return self._fallback_output()
+            except json.JSONDecodeError as e:
+                logger.error(f"[{self.AGENT_NAME}] Failed to parse LLM JSON: {e}")
+                return self._fallback_output()
+            except Exception as e:
+                error_str = str(e)
+                is_rate_limit = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str
+                
+                if is_rate_limit and attempt < max_retries - 1:
+                    wait = (attempt + 1) * 5  # 5s, 10s
+                    logger.warning(f"[{self.AGENT_NAME}] Rate limited, retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+                    await asyncio.sleep(wait)
+                    continue
+                
+                logger.error(f"[{self.AGENT_NAME}] LLM analysis failed: {e}")
+                return self._fallback_output()
 
     def _fallback_output(self) -> dict:
         """Return a safe fallback output if LLM fails. Override in subclasses."""

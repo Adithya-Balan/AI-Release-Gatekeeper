@@ -28,7 +28,46 @@ document.addEventListener('DOMContentLoaded', () => {
     checkHealth();
     loadHistory();
     analyzeForm.addEventListener('submit', handleSubmit);
+    setupTabs();
 });
+
+// ─── Tabs Navigation ───
+function setupTabs() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active classes
+            navLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(t => {
+                t.classList.remove('active');
+                // Use setTimeout to ensure display:none happens after opacity transitions if we added them,
+                // but our CSS handles display:none/block directly.
+            });
+
+            // Add active class to clicked link
+            link.classList.add('active');
+
+            // Show target tab
+            const targetId = `tab-${link.dataset.target}`;
+            const targetTab = document.getElementById(targetId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                if (link.dataset.target === 'history') {
+                    loadHistory();
+                }
+            }
+        });
+    });
+}
+
+function switchTab(tabName) {
+    const link = document.querySelector(`.nav-link[data-target="${tabName}"]`);
+    if (link) link.click();
+}
 
 // ─── Health Check ───
 
@@ -419,12 +458,10 @@ async function loadHistory() {
         const completed = analyses.filter(a => a.status === 'completed');
 
         if (completed.length === 0) {
-            container.innerHTML = '';
-            title.style.display = 'none';
+            container.innerHTML = '<p class="section-subtitle" style="text-align: center; padding: 2rem;">No recent analyses found.</p>';
             return;
         }
 
-        title.style.display = '';
         container.innerHTML = completed.map(a => {
             const v = a.verdict;
             if (!v) return '';
@@ -458,6 +495,7 @@ async function viewAnalysis(analysisId) {
         const data = await resp.json();
 
         if (data.verdict) {
+            switchTab('home');
             renderVerdict(data.verdict);
             showSection('verdict');
         }

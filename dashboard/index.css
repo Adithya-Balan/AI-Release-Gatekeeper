@@ -133,9 +133,43 @@ a:hover {
 }
 
 .logo-text {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ─── Navigation ─── */
+.nav-bar {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-subtle);
+}
+
+.nav-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+    color: #fff;
+    background: rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
 }
 
 .header-status {
@@ -172,6 +206,21 @@ main {
     width: 100%;
     margin: 0 auto;
     padding: var(--space-lg);
+}
+
+/* ─── Tabs ─── */
+.tab-content {
+    display: none;
+    animation: fadeInTab 0.3s ease forwards;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .section {
@@ -732,6 +781,15 @@ main {
 
 
 /* ─── History List ─── */
+.history-header, .settings-header {
+    margin-bottom: var(--space-xl);
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
 .history-list {
     display: flex;
     flex-direction: column;
@@ -752,6 +810,8 @@ main {
 .history-item:hover {
     border-color: var(--border-active);
     background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .history-grade {
@@ -768,7 +828,7 @@ main {
 
 .history-url {
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -778,15 +838,29 @@ main {
 .history-meta {
     font-size: 0.72rem;
     color: var(--text-muted);
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .history-recommendation {
     font-size: 0.72rem;
     font-weight: 600;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: var(--radius-full);
     flex-shrink: 0;
+}
+
+/* ─── Settings ─── */
+.settings-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+.settings-placeholder {
+    color: var(--text-muted);
+    font-size: 0.95rem;
 }
 
 

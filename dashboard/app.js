@@ -22,6 +22,28 @@ const historySection = document.getElementById('historySection');
 const statusDot = document.getElementById('statusDot');
 const statusText = document.getElementById('statusText');
 
+// ─── User Authentication / Isolation ───
+function getUserId() {
+    let uid = localStorage.getItem('gatekeeper_user_id');
+    if (!uid) {
+        uid = 'user_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('gatekeeper_user_id', uid);
+    }
+    return uid;
+}
+const USER_ID = getUserId();
+
+const originalFetch = window.fetch;
+window.fetch = async function(url, options = {}) {
+    if (url.startsWith(API_BASE)) {
+        options.headers = {
+            ...options.headers,
+            'X-User-ID': USER_ID
+        };
+    }
+    return originalFetch(url, options);
+};
+
 // ─── Initialization ───
 
 document.addEventListener('DOMContentLoaded', () => {

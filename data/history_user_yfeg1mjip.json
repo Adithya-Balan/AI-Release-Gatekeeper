@@ -1,0 +1,116 @@
+{
+  "c6be8696-910": {
+    "analysis_id": "c6be8696-910",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "c6be8696-910",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 94,
+      "grade": "A",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.06,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "demo",
+        "ui",
+        "javascript",
+        "css",
+        "frontend"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Prioritize and close a portion of the 114 open issues to keep the backlog manageable.",
+        "\ud83c\udfe5 Add a CONTRIBUTING.md file to guide new contributors through the monorepo workflow.",
+        "\ud83c\udfe5 Introduce branch protection rules and periodic stale\u2011branch cleanup to maintain branch hygiene.",
+        "\ud83c\udfe5 Expose CI test\u2011coverage metrics in the repository status badges for better transparency."
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 22200,
+          "output": {
+            "reasoning": "The repository shows strong operational health. The README is present and includes comprehensive sections: project overview, sub\u2011project links, detailed development setup, and a command reference table, indicating excellent documentation quality. Commit activity is very recent (last commit 2026\u201107\u201107) with multiple merges over the past few weeks, demonstrating a very active development cadence. CI is explicitly enabled, a license (Apache\u20112.0) is declared, and the README references `npm run test`, implying a test suite exists. Open issues (114) are moderate for an 8k\u2011star project and are being actively addressed (evidenced by recent commits fixing issues). No stale branches are evident in the provided data. These factors collectively support a high health score.",
+            "health_score": 94,
+            "grade": "A",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 114,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Prioritize and close a portion of the 114 open issues to keep the backlog manageable.",
+              "Add a CONTRIBUTING.md file to guide new contributors through the monorepo workflow.",
+              "Introduce branch protection rules and periodic stale\u2011branch cleanup to maintain branch hygiene.",
+              "Expose CI test\u2011coverage metrics in the repository status badges for better transparency."
+            ],
+            "confidence": 0.9
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 43560,
+          "output": {
+            "reasoning": "The diff modifies only the demo page to add a dark mode toggle UI. It introduces new CSS styles for a toggle button and JavaScript to toggle a 'night-mode' class on the container. No user input is processed, no external resources are fetched dynamically, and no sensitive data (keys, tokens, passwords) are exposed. The changes are purely cosmetic and functional, with no evident security risks such as injection, XSS, authentication bypass, or insecure handling of data. The code uses safe DOM manipulation and event handling (e.stopPropagation). Therefore, the diff is benign from a security perspective.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 14560,
+          "output": {
+            "reasoning": "The diff shows only changes to `packages/modelviewer.dev/index.html`. It adds CSS rules to scope background changes to `#demo-container`, introduces a `.theme-toggle-btn` with sun/moon icons, and includes JavaScript that toggles a `night-mode` class on the container when the button is clicked. This is a new UI feature (dark mode toggle) that does not modify any APIs, break existing behavior, or involve database migrations. The changes are purely additive and focused on the demo page, with no deletions of functional code (only formatting changes). Therefore, the PR is a feature addition, not a bugfix, refactor, security patch, migration, breaking change, docs, or chore.",
+            "classification": "feature",
+            "title": "Add dark mode toggle to demo container",
+            "summary": "This PR introduces a day/night toggle switch placed inside the 3D model box, allowing users to change the background and lighting in real time. The implementation uses scoped CSS and smooth transitions to ensure only the demo container is affected, preserving the rest of the page's styles. A simple JavaScript handler toggles a `night-mode` class on the container when the button is clicked.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 114,
+              "deletions": 7
+            },
+            "semantic_tags": [
+              "ui",
+              "frontend",
+              "css",
+              "javascript",
+              "demo"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T16:34:06.359693+00:00",
+      "total_duration_ms": 84406
+    },
+    "error": null,
+    "created_at": "2026-07-09T16:32:41.952413+00:00"
+  }
+}

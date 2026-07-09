@@ -10,7 +10,8 @@ import os
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, HTTPException
+import collections
+from fastapi import APIRouter, HTTPException, Header
 
 from pydantic import BaseModel
 from orchestrator.aggregator import compute_verdict
@@ -25,29 +26,50 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-HISTORY_FILE = "data/history.json"
-_analyses: dict[str, AnalysisResponse] = {}
+_analyses: dict[str, dict[str, AnalysisResponse]] = collections.defaultdict(dict)
 
-def _load_history():
-    global _analyses
-    if os.path.exists(HISTORY_FILE):
+def _get_history_file(user_id: str) -> str:
+    safe_id = "".join(c for c in user_id if c.isalnum() or c in "-_") or "default"
+    return f"data/history_{safe_id}.json"
+
+def _load_history(user_id: str):
+    file_path = _get_history_file(user_id)
+    if os.path.exists(file_path) and not _analyses.get(user_id):
         try:
-            with open(HISTORY_FILE, "r") as f:
+            with open(file_path, "r") as f:
                 data = json.load(f)
                 for k, v in data.items():
-                    _analyses[k] = AnalysisResponse(**v)
+                    _analyses[user_id][k] = AnalysisResponse(**v)
         except Exception as e:
-            logger.error(f"Failed to load history: {e}")
+            logger.error(f"Failed to load history for {user_id}: {e}")
 
-def _save_history():
+def _save_history(user_id: str):
     try:
-        os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
-        with open(HISTORY_FILE, "w") as f:
-            json.dump({k: v.model_dump(mode="json") for k, v in _analyses.items()}, f, indent=2)
+        os.makedirs("data", exist_ok=True)
+        file_path = _get_history_file(user_id)
+        with open(file_path, "w") as f:
+            json.dump({k: v.model_dump(mode="json") for k, v in _analyses[user_id].items()}, f, indent=2)
     except Exception as e:
-        logger.error(f"Failed to save history: {e}")
+        logger.error(f"Failed to save history for {user_id}: {e}")
 
-_load_history()
+def _get_settings_file(user_id: str) -> str:
+    safe_id = "".join(c for c in user_id if c.isalnum() or c in "-_") or "default"
+    return f"data/settings_{safe_id}.json"
+
+def _get_user_settings(user_id: str) -> dict:
+    file_path = _get_settings_file(user_id)
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+def _save_user_settings(user_id: str, settings: dict):
+    os.makedirs("data", exist_ok=True)
+    with open(_get_settings_file(user_id), "w") as f:
+        json.dump(settings, f, indent=2)
 
 
 def _get_orchestrator():
@@ -60,7 +82,8 @@ def _get_orchestrator():
 
 
 @router.post("/analyze", response_model=AnalysisResponse)
-async def submit_analysis(request: AnalyzeRequest):
+async def submit_analysis(request: AnalyzeRequest, x_user_id: str = Header(default="anonymous")):
+    _load_history(x_user_id)
     """Submit a GitHub PR URL for release risk analysis.
 
     Returns an analysis ID that can be used to poll for results.
@@ -84,28 +107,30 @@ async def submit_analysis(request: AnalyzeRequest):
         pr_url=request.pr_url,
         created_at=now,
     )
-    _analyses[analysis_id] = response
-    _save_history()
+    _analyses[x_user_id][analysis_id] = response
+    _save_history(x_user_id)
 
     # Start analysis in background
-    asyncio.create_task(_run_analysis(analysis_id, request.pr_url))
+    asyncio.create_task(_run_analysis(x_user_id, analysis_id, request.pr_url))
 
     return response
 
 
 @router.get("/analysis/{analysis_id}", response_model=AnalysisResponse)
-async def get_analysis(analysis_id: str):
+async def get_analysis(analysis_id: str, x_user_id: str = Header(default="anonymous")):
     """Get the status and results of an analysis."""
-    if analysis_id not in _analyses:
+    _load_history(x_user_id)
+    if analysis_id not in _analyses[x_user_id]:
         raise HTTPException(status_code=404, detail="Analysis not found")
-    return _analyses[analysis_id]
+    return _analyses[x_user_id][analysis_id]
 
 
 @router.get("/analyses", response_model=list[AnalysisResponse])
-async def list_analyses():
+async def list_analyses(x_user_id: str = Header(default="anonymous")):
     """List all analyses, most recent first."""
+    _load_history(x_user_id)
     return sorted(
-        _analyses.values(),
+        _analyses[x_user_id].values(),
         key=lambda a: a.created_at,
         reverse=True,
     )
@@ -118,7 +143,7 @@ async def health_check():
     return {
         "status": "healthy",
         "mode": "croo" if orchestrator.use_croo else "local",
-        "analyses_count": len(_analyses),
+        "analyses_count": sum(len(user_analyses) for user_analyses in _analyses.values()),
     }
 
 
@@ -129,58 +154,45 @@ class SettingsUpdate(BaseModel):
 
 
 @router.get("/settings")
-async def get_settings():
+async def get_settings(x_user_id: str = Header(default="anonymous")):
     """Get non-sensitive parts of settings."""
+    user_settings = _get_user_settings(x_user_id)
     return {
-        "github_token_set": bool(os.getenv("GITHUB_TOKEN")),
-        "llm_api_key_set": bool(os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")),
-        "llm_model": os.getenv("LLM_MODEL", "gemini-2.5-flash"),
+        "github_token_set": bool(user_settings.get("github_token") or os.getenv("GITHUB_TOKEN")),
+        "llm_api_key_set": bool(user_settings.get("llm_api_key") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")),
+        "llm_model": user_settings.get("llm_model") or os.getenv("LLM_MODEL", "gemini-2.5-flash"),
     }
 
 
 @router.post("/settings")
-async def update_settings(settings: SettingsUpdate):
-    """Update settings in .env file (very simple implementation)."""
-    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
-    
-    # Read current
-    lines = []
-    if os.path.exists(env_path):
-        with open(env_path, "r") as f:
-            lines = f.readlines()
-            
-    # Helper to update
-    def update_key(key: str, val: str):
-        if not val:
-            return
-        os.environ[key] = val
-        for i, line in enumerate(lines):
-            if line.startswith(f"{key}="):
-                lines[i] = f"{key}={val}\n"
-                return
-        lines.append(f"{key}={val}\n")
-
-    update_key("GITHUB_TOKEN", settings.github_token)
-    update_key("LLM_API_KEY", settings.llm_api_key)
-    update_key("LLM_MODEL", settings.llm_model)
-
-    with open(env_path, "w") as f:
-        f.writelines(lines)
-
+async def update_settings(settings: SettingsUpdate, x_user_id: str = Header(default="anonymous")):
+    """Update user-specific settings."""
+    current = _get_user_settings(x_user_id)
+    if settings.github_token is not None:
+        current["github_token"] = settings.github_token
+    if settings.llm_api_key is not None:
+        current["llm_api_key"] = settings.llm_api_key
+    if settings.llm_model is not None:
+        current["llm_model"] = settings.llm_model
+        
+    _save_user_settings(x_user_id, current)
     return {"status": "success"}
 
 
-async def _run_analysis(analysis_id: str, pr_url: str):
+async def _run_analysis(user_id: str, analysis_id: str, pr_url: str):
     """Background task: fetch data, run agents, aggregate verdict."""
     orchestrator = _get_orchestrator()
     start_time = time.time()
+    
+    settings = _get_user_settings(user_id)
+    github_token = settings.get("github_token") or os.getenv("GITHUB_TOKEN", "")
 
     try:
         # Step 1: Fetch GitHub data
-        _analyses[analysis_id].status = AnalysisStatus.FETCHING
-        logger.info(f"[{analysis_id}] Fetching PR data from GitHub...")
+        _analyses[user_id][analysis_id].status = AnalysisStatus.FETCHING
+        logger.info(f"[{analysis_id}] Fetching PR data from GitHub for user {user_id}...")
 
-        github = GitHubService()
+        github = GitHubService(token=github_token)
         try:
             pr_data, repo_data = await github.fetch_analysis_input(pr_url)
         finally:
@@ -192,7 +204,7 @@ async def _run_analysis(analysis_id: str, pr_url: str):
         )
 
         # Step 2: Run agents
-        _analyses[analysis_id].status = AnalysisStatus.ANALYZING
+        _analyses[user_id][analysis_id].status = AnalysisStatus.ANALYZING
         logger.info(f"[{analysis_id}] Running agent analysis...")
 
         agent_reports = await orchestrator.run_analysis(pr_data, repo_data)
@@ -201,7 +213,7 @@ async def _run_analysis(analysis_id: str, pr_url: str):
         logger.info(f"[{analysis_id}] {completed}/{len(agent_reports)} agents completed")
 
         # Step 3: Aggregate verdict
-        _analyses[analysis_id].status = AnalysisStatus.AGGREGATING
+        _analyses[user_id][analysis_id].status = AnalysisStatus.AGGREGATING
         logger.info(f"[{analysis_id}] Aggregating verdict...")
 
         total_duration_ms = int((time.time() - start_time) * 1000)
@@ -209,9 +221,9 @@ async def _run_analysis(analysis_id: str, pr_url: str):
         verdict.timestamp = datetime.now(timezone.utc).isoformat()
 
         # Step 4: Store result
-        _analyses[analysis_id].status = AnalysisStatus.COMPLETED
-        _analyses[analysis_id].verdict = verdict
-        _save_history()
+        _analyses[user_id][analysis_id].status = AnalysisStatus.COMPLETED
+        _analyses[user_id][analysis_id].verdict = verdict
+        _save_history(user_id)
 
         logger.info(
             f"[{analysis_id}] ✅ Analysis complete: "
@@ -222,6 +234,6 @@ async def _run_analysis(analysis_id: str, pr_url: str):
 
     except Exception as e:
         logger.error(f"[{analysis_id}] ❌ Analysis failed: {e}", exc_info=True)
-        _analyses[analysis_id].status = AnalysisStatus.FAILED
-        _analyses[analysis_id].error = str(e)
-        _save_history()
+        _analyses[user_id][analysis_id].status = AnalysisStatus.FAILED
+        _analyses[user_id][analysis_id].error = str(e)
+        _save_history(user_id)

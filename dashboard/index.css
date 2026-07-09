@@ -1059,17 +1059,33 @@ main {
         padding-top: var(--space-md);
         margin-top: var(--space-md);
     }
+    .history-item {
+        grid-template-columns: 80px 1fr;
+    }
+    .history-recommendation {
+        grid-column: span 2;
+        margin-top: var(--space-sm);
+        text-align: center;
+    }
 }
 
 @media (max-width: 768px) {
+    main {
+        padding: var(--space-sm) var(--space-md);
+    }
     .bento-grid {
         grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    .bento-card {
+        padding: var(--space-md);
     }
     .bento-score, .bento-metrics, .bento-agents, .bento-alerts {
         grid-column: span 1;
     }
     .agent-card {
         grid-template-columns: 1fr;
+        padding: var(--space-md);
     }
     .agent-card-header {
         border-right: none;
@@ -1079,6 +1095,46 @@ main {
     }
     .agent-card-footer {
         grid-column: span 1;
+    }
+    .history-item {
+        grid-template-columns: 45px 1fr;
+        grid-template-rows: auto auto;
+        gap: var(--space-xs) var(--space-md);
+        padding: var(--space-md);
+        text-align: left;
+    }
+    .history-grade {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        border-right: 1px solid rgba(255,255,255,0.1);
+        border-bottom: none;
+        padding-right: var(--space-md);
+        padding-bottom: 0;
+        font-size: 1.5rem;
+    }
+    .history-info {
+        grid-column: 2;
+        grid-row: 1;
+        gap: 2px;
+    }
+    .history-url {
+        font-size: 0.95rem;
+    }
+    .history-meta {
+        font-size: 0.75rem;
+    }
+    .history-recommendation {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: var(--space-xs);
+        align-self: start;
+        width: fit-content;
+        font-size: 0.75rem;
+        padding: 4px 12px;
+    }
+    .bento-score-header {
+        flex-direction: column;
+        gap: var(--space-md);
     }
     .verdict-meta {
         grid-template-columns: 1fr;
@@ -1102,6 +1158,13 @@ main {
         justify-content: center;
         padding: var(--space-md);
     }
+    .alerts-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .nav-bar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1113,5 +1176,9 @@ main {
     .verdict-meta {
         flex-direction: column;
         gap: var(--space-sm);
+    }
+    
+    .confidence-gauge {
+        transform: scale(0.85);
     }
 }

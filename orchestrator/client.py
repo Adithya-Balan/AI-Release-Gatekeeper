@@ -48,78 +48,15 @@ class OrchestratorClient:
     """
 
     def __init__(self):
-        self.use_croo = self._check_croo_config()
+        self.use_croo = False
         self.croo_client = None
         self.stream = None
 
-        # Local agent instances (used when CROO is not configured)
+        # Local agent instances for web application
         self._local_agents = {}
 
-    def _check_croo_config(self) -> bool:
-        """Check if CROO credentials are configured and respect environment modes."""
-        app_env = os.getenv("APP_ENV", "development").lower()
-        
-        # In development mode, we can bypass CROO integration if keys are missing or BYPASS_CAP is true
-        if app_env == "development":
-            bypass = os.getenv("BYPASS_CAP", "false").lower() == "true"
-            key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
-            has_services = any(
-                os.getenv(cfg["service_id_env"], "")
-                for cfg in AGENT_SERVICES.values()
-            )
-            use_croo = bool(key and key.startswith("croo_sk_") and has_services) and not bypass
-            if not use_croo:
-                logger.warning("Running in DEVELOPMENT mode: Bypassing CAP integration (local execution).")
-            return use_croo
-            
-        # In production mode, CROO integration is STRICTLY mandatory
-        elif app_env == "production":
-            key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
-            if not key or not key.startswith("croo_sk_"):
-                logger.error("CRITICAL: CROO_ORCHESTRATOR_KEY is missing or invalid in PRODUCTION mode.")
-                raise RuntimeError("CAP Protocol integration is MANDATORY in production.")
-                
-            for agent, cfg in AGENT_SERVICES.items():
-                if not os.getenv(cfg["service_id_env"]):
-                    logger.error(f"CRITICAL: Missing service ID for {agent} in PRODUCTION mode.")
-                    raise RuntimeError(f"Missing mandatory CAP service ID for {agent}")
-                    
-            logger.info("Running in PRODUCTION mode: CAP Protocol enforced.")
-            return True
-            
-        else:
-            raise ValueError(f"Unknown APP_ENV: {app_env}. Use 'development' or 'production'.")
-
     async def initialize(self):
-        """Initialize the orchestrator — either CROO or local mode."""
-        if self.use_croo:
-            await self._init_croo()
-        else:
-            await self._init_local()
-
-    async def _init_croo(self):
-        """Connect to CROO as a requester agent."""
-        try:
-            from croo import AgentClient, Config
-
-            config = Config(
-                base_url=os.getenv("CROO_API_URL", "https://api.croo.network"),
-                ws_url=os.getenv("CROO_WS_URL", "wss://api.croo.network/ws"),
-            )
-            api_key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
-            self.croo_client = AgentClient(config, api_key)
-            self.stream = await self.croo_client.connect_websocket()
-            logger.info("Orchestrator connected to CROO Network")
-        except Exception as e:
-            if os.getenv("APP_ENV", "development").lower() == "production":
-                logger.error(f"CRITICAL: CROO initialization failed in production: {e}")
-                raise RuntimeError(f"CAP initialization failed in production: {e}")
-            logger.warning(f"CROO initialization failed, falling back to local mode: {e}")
-            self.use_croo = False
-            await self._init_local()
-
-    async def _init_local(self):
-        """Initialize local agent instances for development."""
+        """Initialize local agent instances for web application bypass."""
         from agents.repo_doctor import RepoDoctorAgent
         from agents.security_scanner import SecurityScannerAgent
         from agents.pr_describer import PRDescriberAgent
@@ -131,19 +68,12 @@ class OrchestratorClient:
             "pr_describer": PRDescriberAgent(),
             "dependency_auditor": DependencyAuditorAgent(),
         }
-        logger.info("Orchestrator running in LOCAL mode (no CROO)")
+        logger.info("Web Application Mode: Bypassing CAP and running local analysis.")
 
     async def run_analysis(self, pr_data: PRData, repo_data: RepoData) -> dict[str, AgentReport]:
-        """Fan out analysis to all agents and collect results.
-
-        Returns a dict of agent_name -> AgentReport.
-        """
+        """Run analysis completely locally for the web application."""
         input_data = AnalysisInput(pr=pr_data, repo=repo_data).model_dump()
-
-        if self.use_croo:
-            return await self._run_croo_analysis(input_data)
-        else:
-            return await self._run_local_analysis(input_data)
+        return await self._run_local_analysis(input_data)
 
     async def _run_croo_analysis(self, input_data: dict) -> dict[str, AgentReport]:
         """Execute analysis through CROO protocol orders."""

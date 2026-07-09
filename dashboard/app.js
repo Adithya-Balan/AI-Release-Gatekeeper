@@ -298,7 +298,7 @@ function renderVerdict(verdict) {
 
 function getConfidenceColor(score) {
     if (score >= 85) return 'var(--accent-emerald)';
-    if (score >= 65) return 'var(--accent-primary)';
+    if (score >= 65) return 'var(--accent-cyan)';
     if (score >= 45) return 'var(--accent-amber)';
     return 'var(--accent-rose)';
 }

@@ -112,5 +112,227 @@
     },
     "error": null,
     "created_at": "2026-07-09T16:32:41.952413+00:00"
+  },
+  "20011113-a75": {
+    "analysis_id": "20011113-a75",
+    "status": "completed",
+    "pr_url": "https://github.com/maziyarpanahi/openmed/pull/1415",
+    "verdict": {
+      "analysis_id": "20011113-a75",
+      "pr_url": "https://github.com/maziyarpanahi/openmed/pull/1415",
+      "deployment_confidence": 75,
+      "grade": "C+",
+      "ship_recommendation": "SAFE_WITH_MONITORING",
+      "rollback_probability": 0.25,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "documentation",
+        "branding",
+        "assets",
+        "marketing"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Unable to fully analyze repository health"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 27447,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to evaluate repository health.",
+            "health_score": 50,
+            "grade": "C",
+            "signals": {
+              "readme_quality": "FAIR",
+              "commit_frequency": "MODERATE",
+              "test_presence": false,
+              "stale_branches": 0,
+              "open_issues": 0,
+              "ci_configured": false,
+              "license_present": false
+            },
+            "recommendations": [
+              "Unable to fully analyze repository health"
+            ],
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 10129,
+          "output": {
+            "reasoning": "The PR consists solely of documentation updates (README files in multiple languages) and the addition of brand assets (SVGs, PNGs, HTML files). The changes are limited to alt text, badge counts, and descriptive text. No code, configuration, or scripts were modified. The added HTML files appear to be static assets for social media previews and contain no executable content. No hardcoded secrets, API keys, tokens, passwords, or any code that could be vulnerable to injection, insecure deserialization, command execution, or other security issues were introduced. The diff does not contain any source code that would be subject to typical vulnerability scanning. Therefore, the changes are benign from a security perspective.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 0.85,
+            "confidence": 0.9
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 19292,
+          "output": {
+            "reasoning": "The diff shows changes across 63 files, primarily 14 multilingual README files (Arabic, German, Spanish, Persian, French, Hindi, Italian, Japanese, English, Dutch, Portuguese, Telugu, Turkish, Chinese) and a set of brand assets (SVG icons, PNG images, HTML files, and a social README). Each README file has been updated with new branding: updated alt text for mascot lockup, increased model count from 1,000+ to 1,500+, increased PII detection points from 247 to 600+, added language counts, and refined descriptions. New brand assets include openmed-favicon.svg, openmed-mark.svg, cat-head.png, openmed-mascot.png, six logo variants, a banner PNG, and social media assets. No migration files, schema changes, or code modifications are present. The changes are purely documentation and branding, indicating a non\u2011breaking, documentation\u2011focused update.",
+            "classification": "docs",
+            "title": "Consolidate OpenMed brand assets and update multilingual READMEs",
+            "summary": "This PR updates OpenMed's brand identity by adding new SVG icons, PNG images, and social media assets, and refreshes README documentation across 14 languages with updated model counts, PII detection statistics, and branding text. The changes enhance the project's visual and textual consistency without altering any code or APIs.",
+            "changes": {
+              "files_changed": 63,
+              "additions": 893,
+              "deletions": 595
+            },
+            "semantic_tags": [
+              "documentation",
+              "branding",
+              "marketing",
+              "assets"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T17:29:10.215154+00:00",
+      "total_duration_ms": 61585
+    },
+    "error": null,
+    "created_at": "2026-07-09T17:28:08.626649+00:00"
+  },
+  "5fbc5c78-755": {
+    "analysis_id": "5fbc5c78-755",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "5fbc5c78-755",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 92,
+      "grade": "A",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.08,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "toggle",
+        "frontend",
+        "demo",
+        "dark-mode",
+        "ui",
+        "css",
+        "javascript",
+        "theme"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Prioritize addressing a portion of the 114 open issues to reduce backlog and improve issue resolution times.",
+        "\ud83c\udfe5 Add a CONTRIBUTING.md file (and possibly a PULL_REQUEST_TEMPLATE) to complement the existing README and streamline contributor onboarding."
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 30472,
+          "output": {
+            "reasoning": "The repository shows strong operational health. The README is present and includes comprehensive sections: project overview, sub\u2011project links, detailed development setup, and a command table, indicating EXCELLENT documentation quality. Commit activity is recent: the latest commit is dated 2026\u201107\u201107, with at least 7 commits logged between June 18 and July 7, 2026, demonstrating ACTIVE maintenance. The repository explicitly states CI is configured and a license (Apache\u20112.0) is present. Tests are referenced in the README (`npm run test`), so test presence is confirmed. No stale branches are reported, assumed zero. The open issue count is 114, which is moderate but not excessive given the project's size and activity. All core signals (README, CI, tests, license, recent commits) are satisfied, supporting a B+ grade with a health score in the low\u201180s.",
+            "health_score": 84,
+            "grade": "B+",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 114,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Prioritize addressing a portion of the 114 open issues to reduce backlog and improve issue resolution times.",
+              "Add a CONTRIBUTING.md file (and possibly a PULL_REQUEST_TEMPLATE) to complement the existing README and streamline contributor onboarding."
+            ],
+            "confidence": 0.9
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 12227,
+          "output": {
+            "reasoning": "The diff adds a dark mode toggle to the demo page, including CSS styling and a small JavaScript snippet to toggle a CSS class. The changes involve only static HTML, inline SVG icons, and CSS rules. No user input is processed, no external resources are dynamically constructed, and there are no eval, injection, or deserialization operations. The only minor issue is a CSS timing function typo (`standard`), but this does not constitute a security vulnerability. Therefore, the diff is benign from a security perspective.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 17045,
+          "output": {
+            "reasoning": "The diff shows modifications only to `packages/modelviewer.dev/index.html`. It adds CSS rules to scope background changes to `#demo-container`, defines a `.theme-toggle-btn` with SVG icons for sun/moon, and includes JavaScript that toggles a `night-mode` class on the container when the button is clicked. No changes to library source code, API signatures, or database schemas are present. The added functionality is a new UI feature (dark mode toggle) for the demo page, not a bug fix, refactor, security patch, migration, or breaking change. There are no migration files or schema alterations, confirming `migration_detected` is false. The evidence of breaking changes is absent because the changes are confined to a demo HTML file and do not affect the public API or existing behavior of the model-viewer component.",
+            "classification": "feature",
+            "title": "Add dark mode toggle for functionality and styles",
+            "summary": "A day/night toggle switch has been added inside the 3D model box, allowing users to change the background and lighting in real time without affecting other page styles. The implementation isolates theme changes to the `#demo-container` using scoped CSS classes and provides smooth CSS transitions for colors, button borders, and icon rotation. This enhances the demo experience with a simple, glitch\u2011free interactive UI.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 114,
+              "deletions": 7
+            },
+            "semantic_tags": [
+              "ui",
+              "frontend",
+              "css",
+              "javascript",
+              "demo",
+              "theme",
+              "dark-mode",
+              "toggle"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T17:44:13.999925+00:00",
+      "total_duration_ms": 63732
+    },
+    "error": null,
+    "created_at": "2026-07-09T17:43:10.265907+00:00"
   }
 }

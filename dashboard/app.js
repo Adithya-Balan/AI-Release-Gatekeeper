@@ -406,13 +406,16 @@ function createAgentCard(meta, report) {
                     <span class="stat-value ${s.className || ''}">${s.value}</span>
                 </div>
             `).join('')}
-            <div class="confidence-bar">
-                <div class="confidence-bar-fill" style="width: ${Math.round(confidence * 100)}%; background: ${getConfidenceColor(confidence * 100)};"></div>
-            </div>
         </div>
         <div class="agent-card-footer">
-            <span>Confidence: ${Math.round(confidence * 100)}%</span>
-            <span>${report.duration_ms}ms</span>
+            <div class="agent-stat">
+                <span class="stat-label">Confidence</span>
+                <span class="stat-value" style="color: ${getConfidenceColor(confidence * 100)}">${Math.round(confidence * 100)}%</span>
+            </div>
+            <div class="agent-stat">
+                <span class="stat-label">Duration</span>
+                <span class="stat-value">${report.duration_ms}ms</span>
+            </div>
         </div>
     `;
 

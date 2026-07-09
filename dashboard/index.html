@@ -134,11 +134,14 @@
                 </div>
             </section>
 
-            <!-- ─── Verdict Section ─── -->
-            <section id="verdictSection" class="section" style="display:none;">
-
-                <!-- Verdict Hero Card -->
-                <div class="verdict-hero" id="verdictHero">
+            <!-- ─── Verdict Section (Bento Grid) ─── -->
+            <section id="verdictSection" class="section bento-grid" style="display:none;">
+                <!-- Box 1: Core Score -->
+                <div class="bento-card bento-score">
+                    <div class="bento-score-header">
+                        <div class="bento-title">Analysis Complete</div>
+                        <div class="verdict-grade" id="verdictGrade">--</div>
+                    </div>
                     <div class="verdict-confidence">
                         <div class="confidence-gauge" id="confidenceGauge">
                             <svg viewBox="0 0 200 200" class="gauge-svg">
@@ -150,48 +153,57 @@
                                 <span class="gauge-label">Confidence</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="verdict-details">
-                        <div class="verdict-grade" id="verdictGrade">--</div>
                         <div class="verdict-recommendation" id="verdictRecommendation">Analyzing...</div>
-                        <div class="verdict-meta">
-                            <div class="meta-item">
-                                <span class="meta-label">Rollback Risk</span>
-                                <span class="meta-value" id="rollbackRisk">--</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">Blast Radius</span>
-                                <span class="meta-value" id="blastRadius">--</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">Duration</span>
-                                <span class="meta-value" id="analysisDuration">--</span>
-                            </div>
+                    </div>
+                </div>
+
+                <!-- Box 2: Metrics & Affected Areas -->
+                <div class="bento-card bento-metrics">
+                    <h3 class="bento-title">Release Metrics</h3>
+                    <div class="verdict-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Rollback Risk</span>
+                            <span class="meta-value" id="rollbackRisk">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Blast Radius</span>
+                            <span class="meta-value" id="blastRadius">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value" id="analysisDuration">--</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Issues & Warnings -->
-                <div class="alerts-container" id="alertsContainer" style="display:none;">
-                    <div class="alerts-block blocking-issues" id="blockingIssuesBlock" style="display:none;">
-                        <h3 class="alerts-title">🚫 Blocking Issues</h3>
-                        <ul class="alerts-list" id="blockingIssuesList"></ul>
-                    </div>
-                    <div class="alerts-block warnings" id="warningsBlock" style="display:none;">
-                        <h3 class="alerts-title">⚠️ Warnings</h3>
-                        <ul class="alerts-list" id="warningsList"></ul>
+                    <!-- Affected Areas moved here for better context grouping -->
+                    <div class="affected-areas" id="affectedAreas" style="display:none;">
+                        <h3 class="areas-title">Affected Domains</h3>
+                        <div class="areas-tags" id="areasTags"></div>
                     </div>
                 </div>
 
-                <!-- Agent Reports Grid -->
-                <div class="agent-grid" id="agentGrid">
-                    <!-- Populated dynamically -->
+                <!-- Box 3: Agent Intelligence -->
+                <div class="bento-card bento-agents">
+                    <div class="bento-header-flex">
+                        <h3 class="bento-title">Agent Intelligence</h3>
+                    </div>
+                    <div class="agent-grid" id="agentGrid">
+                        <!-- Populated dynamically -->
+                    </div>
                 </div>
 
-                <!-- Affected Areas -->
-                <div class="affected-areas" id="affectedAreas" style="display:none;">
-                    <h3 class="areas-title">Affected Areas</h3>
-                    <div class="areas-tags" id="areasTags"></div>
+                <!-- Box 4: Alerts & Warnings -->
+                <div class="bento-card bento-alerts" id="alertsContainer" style="display:none;">
+                    <h3 class="bento-title">Security & Risk Assessment</h3>
+                    <div class="alerts-wrapper">
+                        <div class="alerts-block blocking-issues" id="blockingIssuesBlock" style="display:none;">
+                            <h3 class="alerts-title">🚫 Blocking Issues</h3>
+                            <ul class="alerts-list" id="blockingIssuesList"></ul>
+                        </div>
+                        <div class="alerts-block warnings" id="warningsBlock" style="display:none;">
+                            <h3 class="alerts-title">⚠️ Warnings</h3>
+                            <ul class="alerts-list" id="warningsList"></ul>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

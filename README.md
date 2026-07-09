@@ -137,7 +137,7 @@ cp .env.example .env
 ```
 Edit `.env` to include:
 - `GITHUB_TOKEN`: Read-only classic token (required to fetch PR diffs without rate-limiting).
-- `LLM_API_KEY`: Groq, OpenAI, or Gemini key.
+- `LLM_API_KEY`: OpenRouter API key (for Cohere North Mini Code).
 - `CROO_ORCHESTRATOR_KEY` & `CROO_*_SERVICE_ID`: (For CROO Mode).
 
 ### 3. Run the Platform
@@ -167,7 +167,7 @@ Deploy the entire platform on the **Render Free Tier**:
 ## 🛠️ Technical Stack
 
 - **Backend / API:** FastAPI, Uvicorn, Python 3.10+
-- **Agent Intelligence:** `llama-3.3-70b-versatile` (via Groq), OpenAI standard.
+- **Agent Intelligence:** `cohere/north-mini-code:free` (via OpenRouter), OpenAI standard.
 - **A2A Network:** `croo-sdk`, WebSocket Event Streaming, USDC Settlement.
 - **Frontend:** Vanilla HTML/CSS/JS (Custom "Orange" Glassmorphism UI).
 - **Persistence:** Local JSON file persistence (Ready for PostgreSQL).

@@ -51,10 +51,16 @@ async def start_agent(config: dict):
     """Start a single agent as a CROO provider."""
     import importlib
 
+    app_env = os.getenv("APP_ENV", "development").lower()
     api_key = os.getenv(config["key_env"], "")
+    
     if not api_key or not api_key.startswith("croo_sk_"):
-        logger.warning(f"[{config['name']}] No valid CROO key found in {config['key_env']}, skipping")
-        return
+        if app_env == "production":
+            logger.error(f"CRITICAL: Missing valid CROO key for {config['name']} in PRODUCTION mode.")
+            raise RuntimeError(f"Missing mandatory CROO key for {config['name']} in production.")
+        else:
+            logger.warning(f"[{config['name']}] No valid CROO key found in {config['key_env']}, skipping (development mode)")
+            return
 
     module = importlib.import_module(config["module"])
     agent_class = getattr(module, config["class"])

@@ -402,5 +402,873 @@
     },
     "error": null,
     "created_at": "2026-07-08T14:10:49.345109+00:00"
+  },
+  "dc9150a3-05f": {
+    "analysis_id": "dc9150a3-05f",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "dc9150a3-05f",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 95,
+      "grade": "A+",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.05,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "ux",
+        "dark-mode",
+        "3d-model-viewer",
+        "ui",
+        "javascript",
+        "css"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Address the 114 open issues to further improve the repository's health",
+        "\ud83c\udfe5 Consider implementing a more robust issue tracking system to manage the large number of open issues",
+        "\ud83c\udfe5 Continue to maintain a high level of commit frequency and community engagement"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 1769,
+          "output": {
+            "reasoning": "The repository has a high-quality README with clear instructions for getting started and development. It also has a recent commit history, with the most recent commit being from 2026-07-07. The repository has a large number of stars (8156) and forks (935), indicating a strong community presence. The presence of CI and a license (Apache-2.0) also contribute to the high health score. However, the repository has 114 open issues, which could be a concern. The recent commits and PR context suggest that the repository is actively maintained, with a focus on fixing bugs and adding new features.",
+            "health_score": 92,
+            "grade": "A",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 114,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Address the 114 open issues to further improve the repository's health",
+              "Consider implementing a more robust issue tracking system to manage the large number of open issues",
+              "Continue to maintain a high level of commit frequency and community engagement"
+            ],
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 858,
+          "output": {
+            "reasoning": "The provided diff introduces a dark mode toggle for the model viewer functionality and styles. The changes are primarily related to CSS styling and adding a button to toggle the dark mode. No security vulnerabilities such as hardcoded secrets, injection vulnerabilities, authentication bypasses, insecure data handling, or unsafe operations were found in the diff. The code appears to be benign and does not introduce any security concerns.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 9732,
+          "output": {
+            "reasoning": "The PR adds a dark mode toggle switch to the 3D model viewer, allowing users to change the background and lighting in real-time. The changes are isolated to the #demo-container using localized CSS classes, ensuring that other page elements remain unaffected. The addition of CSS transitions and a JavaScript event listener to toggle the night mode class on the container suggests that this is a new feature. There are no indications of breaking changes, migrations, or security patches. The changes are limited to a single file, packages/modelviewer.dev/index.html, with 114 additions and 7 deletions.",
+            "classification": "feature",
+            "title": "Add Dark Mode Toggle for 3D Model Viewer",
+            "summary": "This PR adds a dark mode toggle switch to the 3D model viewer, allowing users to change the background and lighting in real-time. The changes are isolated to the #demo-container and include CSS transitions and a JavaScript event listener to toggle the night mode class.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 114,
+              "deletions": 7
+            },
+            "semantic_tags": [
+              "ui",
+              "ux",
+              "css",
+              "javascript",
+              "3d-model-viewer",
+              "dark-mode"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T07:33:39.278493+00:00",
+      "total_duration_ms": 16293
+    },
+    "error": null,
+    "created_at": "2026-07-09T07:33:22.979979+00:00"
+  },
+  "2708f427-b0f": {
+    "analysis_id": "2708f427-b0f",
+    "status": "completed",
+    "pr_url": "https://github.com/microsoft/vscode/pull/325083",
+    "verdict": {
+      "analysis_id": "2708f427-b0f",
+      "pr_url": "https://github.com/microsoft/vscode/pull/325083",
+      "deployment_confidence": 95,
+      "grade": "A+",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.05,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "enablement",
+        "workspace",
+        "extensions",
+        "disable"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Address the large number of open issues by prioritizing and assigning them to contributors",
+        "\ud83c\udfe5 Consider implementing a more efficient issue tracking system to reduce the number of open issues",
+        "\ud83c\udfe5 Continue to maintain a high level of commit activity to ensure the project remains up-to-date and secure"
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 1242,
+          "output": {
+            "reasoning": "The repository has a high-quality README with clear information about the project, its goals, and its community. It also has a large number of stars and forks, indicating a strong and active community. The presence of a MIT license and a well-maintained CI configuration are also positives. However, the large number of open issues (19112) is a concern, as it may indicate that the project is struggling to keep up with bug reports and feature requests. The recent commits show a high level of activity, with multiple commits per day, which suggests that the project is actively maintained. The presence of a test presence is not explicitly mentioned, but the CI configuration and the presence of a 'test' label in some issues suggest that testing is being performed.",
+            "health_score": 92,
+            "grade": "A",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 19112,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Address the large number of open issues by prioritizing and assigning them to contributors",
+              "Consider implementing a more efficient issue tracking system to reduce the number of open issues",
+              "Continue to maintain a high level of commit activity to ensure the project remains up-to-date and secure"
+            ],
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 639,
+          "output": {
+            "reasoning": "The diff introduces a conditional check to determine if an extension is disabled globally before enabling the disable button dropdown. The added line `&& !this.extensionEnablementService.isDisabledGlobally(this.extension.local)` checks the enablement state of the extension. This change does not introduce any security vulnerabilities such as hardcoded secrets, injection vulnerabilities, authentication bypasses, insecure data handling, or unsafe operations. The diff is benign and does not pose any security risks.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 1081,
+          "output": {
+            "reasoning": "The PR description and the diff clearly indicate a fix for a bug where the 'Disable' button dropdown shows both 'Disable' and 'Disable (Workspace)' even when the global disable action is no longer valid. The fix involves updating the `DisableGloballyAction.update()` method to verify if the extension is not already globally disabled before enabling the global disable action. This change is localized to a single file, `extensionsActions.ts`, and involves adding a conditional check to correctly hide the global disable action from the dropdown. There is no indication of new functionality, code restructuring, security vulnerability fixes, database schema changes, or documentation updates. The change is focused on fixing existing broken behavior, which aligns with the 'bugfix' classification.",
+            "classification": "bugfix",
+            "title": "Fix for Disabled Extension Disable Button Dropdown",
+            "summary": "This PR fixes a bug where the 'Disable' button dropdown incorrectly shows both 'Disable' and 'Disable (Workspace)' options when an extension is disabled globally and then enabled for a workspace. The fix updates the `DisableGloballyAction.update()` method to correctly hide the global disable action from the dropdown. This change ensures that only the 'Disable (Workspace)' button is shown in such scenarios, resolving the inconsistency.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 1,
+              "deletions": 0
+            },
+            "semantic_tags": [
+              "extensions",
+              "workspace",
+              "disable",
+              "enablement"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T08:16:25.913712+00:00",
+      "total_duration_ms": 7089
+    },
+    "error": null,
+    "created_at": "2026-07-09T08:16:18.821607+00:00"
+  },
+  "f9c42f92-11b": {
+    "analysis_id": "f9c42f92-11b",
+    "status": "completed",
+    "pr_url": "https://github.com/microsoft/vscode/pull/325083",
+    "verdict": {
+      "analysis_id": "f9c42f92-11b",
+      "pr_url": "https://github.com/microsoft/vscode/pull/325083",
+      "deployment_confidence": 95,
+      "grade": "A+",
+      "ship_recommendation": "READY",
+      "rollback_probability": 0.05,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "enablement",
+        "workspace",
+        "extensions",
+        "disable"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Address the large number of open issues through prioritization and assignment to maintainers or contributors.",
+        "\ud83c\udfe5 Consider implementing a more efficient issue management process to reduce the backlog.",
+        "\ud83c\udfe5 Continue to maintain a high level of commit frequency and code quality to ensure the repository remains active and healthy."
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 9229,
+          "output": {
+            "reasoning": "The repository has a high commit frequency with recent commits from multiple authors, indicating active maintenance. The presence of a CI configuration and a comprehensive README with clear documentation and links to additional resources also contribute to its health. However, the large number of open issues (19112) is a notable concern. Despite this, the repository's overall activity, documentation, and configuration suggest a high level of health. The license is also present and well-documented.",
+            "health_score": 92,
+            "grade": "A",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 19112,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Address the large number of open issues through prioritization and assignment to maintainers or contributors.",
+              "Consider implementing a more efficient issue management process to reduce the backlog.",
+              "Continue to maintain a high level of commit frequency and code quality to ensure the repository remains active and healthy."
+            ],
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 6887,
+          "output": {
+            "reasoning": "The diff introduces a conditional check to determine whether the 'Disable Globally' button should be enabled. The check uses the `extensionEnablementService.isDisabledGlobally` method to verify if the extension is disabled globally. This change appears to be a benign fix to ensure the button's state is correctly updated based on the extension's enablement state. No security vulnerabilities, such as hardcoded secrets, injection vulnerabilities, or authentication bypasses, were identified in the diff.",
+            "risk_level": "NONE",
+            "findings": [],
+            "scan_coverage": 1.0,
+            "confidence": 1.0
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 5653,
+          "output": {
+            "reasoning": "The PR description explicitly mentions a bug fix for an issue where the 'Disable' button dropdown shows both 'Disable' and 'Disable (Workspace)' even though the global disable action is no longer valid. The diff shows a modification to the `DisableGloballyAction.update()` method in `extensionsActions.ts` to verify if the extension is not already globally disabled before enabling the global disable action. This indicates that the PR is fixing existing broken behavior. The addition of a single line of code (`&& !this.extensionEnablementService.isDisabledGlobally(this.extension.local)`) to the `DisableGloballyAction` class is the key evidence for this classification. There are no signs of new functionality, security patches, or database schema changes. The change is limited to a single file and does not introduce any breaking changes or migrations.",
+            "classification": "bugfix",
+            "title": "Fix for disabled extension disable button dropdown",
+            "summary": "This PR fixes a bug where the 'Disable' button dropdown shows both 'Disable' and 'Disable (Workspace)' for an extension that is disabled globally and then enabled for a workspace. The fix updates the `DisableGloballyAction.update()` method to correctly hide the global disable action from the dropdown. The change ensures that only the 'Disable (Workspace)' button is shown in such cases, resolving the inconsistency.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 1,
+              "deletions": 0
+            },
+            "semantic_tags": [
+              "extensions",
+              "workspace",
+              "disable",
+              "enablement"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T08:16:48.291950+00:00",
+      "total_duration_ms": 25540
+    },
+    "error": null,
+    "created_at": "2026-07-09T08:16:22.747817+00:00"
+  },
+  "72fb699e-7c4": {
+    "analysis_id": "72fb699e-7c4",
+    "status": "completed",
+    "pr_url": "https://github.com/steipete/agent-scripts/pull/27",
+    "verdict": {
+      "analysis_id": "72fb699e-7c4",
+      "pr_url": "https://github.com/steipete/agent-scripts/pull/27",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 62045,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 6b23bd4c-4106-4db1-bc6c-7ba7cedda24d)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 61846,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: d98391a6-f813-43a9-b5ef-73f4eaf1d040)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 62045,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 72d3ce8f-8eea-4abb-92fc-eefffc6fe07a)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 62045,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 2688aeda-8711-4cb3-ab62-10ef640c6776)"
+        }
+      },
+      "timestamp": "2026-07-09T13:37:56.125789+00:00",
+      "total_duration_ms": 71342
+    },
+    "error": null,
+    "created_at": "2026-07-09T13:36:44.781595+00:00"
+  },
+  "6d26a5e2-63b": {
+    "analysis_id": "6d26a5e2-63b",
+    "status": "completed",
+    "pr_url": "https://github.com/steipete/agent-scripts/pull/27",
+    "verdict": {
+      "analysis_id": "6d26a5e2-63b",
+      "pr_url": "https://github.com/steipete/agent-scripts/pull/27",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 61782,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 3eabc198-d526-46c5-8b8d-a4b5661026c7)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 61771,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 56061c94-2d76-488a-9d9f-8b21ce30e0a2)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 61772,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 8bd3b786-bec1-4234-a3a8-16a6d659ed7a)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 61645,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 45c9e5a0-ade9-45e0-93a0-2e5d373daebc)"
+        }
+      },
+      "timestamp": "2026-07-09T13:44:37.886080+00:00",
+      "total_duration_ms": 66324
+    },
+    "error": null,
+    "created_at": "2026-07-09T13:43:31.557162+00:00"
+  },
+  "4ca76011-5e3": {
+    "analysis_id": "4ca76011-5e3",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "4ca76011-5e3",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 62602,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: b08d06a9-e623-49c7-b15a-023e38aea42f)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 62500,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: bf20e9b7-e430-4abb-871d-be8c8fc3fb23)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 62485,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: a7823815-5cdb-49c5-a37a-2e0ce9854d65)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 63578,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: f058f669-6cec-4a50-bac8-bcbfd41c5d0b)"
+        }
+      },
+      "timestamp": "2026-07-09T13:54:22.655168+00:00",
+      "total_duration_ms": 68841
+    },
+    "error": null,
+    "created_at": "2026-07-09T13:53:13.808237+00:00"
+  },
+  "c783dd83-304": {
+    "analysis_id": "c783dd83-304",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "c783dd83-304",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 62990,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 9d9d91fc-6d61-440b-9350-7c044d148d2b)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 62988,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: e06a7723-2461-4f5e-bd40-c7a075629c25)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 62988,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 07b351c5-3eef-4e60-b3e2-6ff4424573da)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 62987,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 8502ebfe-e1a1-4deb-8fdf-2f5000bb39a6)"
+        }
+      },
+      "timestamp": "2026-07-09T14:16:50.524347+00:00",
+      "total_duration_ms": 67888
+    },
+    "error": null,
+    "created_at": "2026-07-09T14:15:42.634339+00:00"
+  },
+  "5fa0e22b-79e": {
+    "analysis_id": "5fa0e22b-79e",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "5fa0e22b-79e",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 62825,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 897a84dc-aaac-4c70-93d4-b862aeb6db9d)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 62825,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 71bd45ca-2894-4486-83e2-ff7a5bdbd318)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 62784,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 814058bb-a877-4a91-8c18-495b995b44d9)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 62835,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: de88e11b-0c6f-411d-95f9-3990901233cb)"
+        }
+      },
+      "timestamp": "2026-07-09T14:21:42.002248+00:00",
+      "total_duration_ms": 68624
+    },
+    "error": null,
+    "created_at": "2026-07-09T14:20:33.376241+00:00"
+  },
+  "8c9744f3-01b": {
+    "analysis_id": "8c9744f3-01b",
+    "status": "pending",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": null,
+    "error": null,
+    "created_at": "2026-07-09T14:28:53.731828+00:00"
+  },
+  "90e6a493-a9b": {
+    "analysis_id": "90e6a493-a9b",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "90e6a493-a9b",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 62646,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: bd40f41f-bfcf-46e4-a376-cac515eeb49d)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 62644,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 8f3d202b-bb2d-4d11-99a1-98b24790da99)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 62645,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: b1365082-d0d8-44d8-a69e-0a30fb56f8cc)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 62642,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 0ebe7108-9b3c-4a61-939a-456b246d3698)"
+        }
+      },
+      "timestamp": "2026-07-09T14:32:18.158803+00:00",
+      "total_duration_ms": 68275
+    },
+    "error": null,
+    "created_at": "2026-07-09T14:31:09.881636+00:00"
+  },
+  "ca6a192c-989": {
+    "analysis_id": "ca6a192c-989",
+    "status": "completed",
+    "pr_url": "https://github.com/MadsLorentzen/ai-job-search/pull/101",
+    "verdict": {
+      "analysis_id": "ca6a192c-989",
+      "pr_url": "https://github.com/MadsLorentzen/ai-job-search/pull/101",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 61640,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 66edf01f-f829-449b-a4c3-6a25908f8858)"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 61639,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 2947dbac-0f6e-485f-bacd-7d7cafd4117c)"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 61740,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 863a1c83-8503-4361-97a1-fc6da7774ce4)"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 62098,
+          "output": {},
+          "error": "Timeout waiting for order_created (ref: 4e77573c-ac7e-4fca-a12e-a81d69802ad5)"
+        }
+      },
+      "timestamp": "2026-07-09T14:59:49.556830+00:00",
+      "total_duration_ms": 65953
+    },
+    "error": null,
+    "created_at": "2026-07-09T14:58:43.601920+00:00"
+  },
+  "819189e9-469": {
+    "analysis_id": "819189e9-469",
+    "status": "completed",
+    "pr_url": "https://github.com/MadsLorentzen/ai-job-search/pull/101",
+    "verdict": {
+      "analysis_id": "819189e9-469",
+      "pr_url": "https://github.com/MadsLorentzen/ai-job-search/pull/101",
+      "deployment_confidence": 38,
+      "grade": "F",
+      "ship_recommendation": "BLOCK",
+      "rollback_probability": 0.62,
+      "blast_radius": "NONE",
+      "affected_areas": [],
+      "blocking_issues": [],
+      "warnings": [],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "failed",
+          "duration_ms": 808,
+          "output": {},
+          "error": "croo: PROVIDER_NOT_ACCEPTING_ORDERS (code=400, http=400): provider is not accepting new orders"
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "failed",
+          "duration_ms": 806,
+          "output": {},
+          "error": "croo: PROVIDER_NOT_ACCEPTING_ORDERS (code=400, http=400): provider is not accepting new orders"
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "failed",
+          "duration_ms": 806,
+          "output": {},
+          "error": "croo: PROVIDER_NOT_ACCEPTING_ORDERS (code=400, http=400): provider is not accepting new orders"
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "failed",
+          "duration_ms": 807,
+          "output": {},
+          "error": "croo: PROVIDER_NOT_ACCEPTING_ORDERS (code=400, http=400): provider is not accepting new orders"
+        }
+      },
+      "timestamp": "2026-07-09T15:03:35.919134+00:00",
+      "total_duration_ms": 4624
+    },
+    "error": null,
+    "created_at": "2026-07-09T15:03:31.292281+00:00"
+  },
+  "ef1035c2-0eb": {
+    "analysis_id": "ef1035c2-0eb",
+    "status": "completed",
+    "pr_url": "https://github.com/google/model-viewer/pull/5160",
+    "verdict": {
+      "analysis_id": "ef1035c2-0eb",
+      "pr_url": "https://github.com/google/model-viewer/pull/5160",
+      "deployment_confidence": 61,
+      "grade": "D",
+      "ship_recommendation": "NEEDS_ATTENTION",
+      "rollback_probability": 0.39,
+      "blast_radius": "LOW",
+      "affected_areas": [
+        "javascript",
+        "styling",
+        "ui",
+        "dark-mode",
+        "demo",
+        "frontend",
+        "toggle",
+        "css"
+      ],
+      "blocking_issues": [],
+      "warnings": [
+        "\ud83c\udfe5 Prioritize addressing the 114 open issues to keep the backlog lean and improve issue resolution times.",
+        "\ud83c\udfe5 Implement periodic branch hygiene checks to ensure no stale branches accumulate, even though none are currently reported.",
+        "\ud83c\udfe5 Consider adding a brief contribution guide (e.g., CODEOWNERS, CONTRIBUTING.md) to streamline onboarding for new contributors."
+      ],
+      "agent_reports": {
+        "repo_doctor": {
+          "agent_name": "repo_doctor",
+          "status": "completed",
+          "duration_ms": 29954,
+          "output": {
+            "reasoning": "The repository shows strong operational health. The README is present and contains comprehensive documentation: a project overview, sub\u2011project links, detailed development setup, and command references, earning an EXCELLENT rating. Recent activity is evident with 7 commits spanning 2026\u201106\u201118 to 2026\u201107\u201107 and a last push on 2026\u201107\u201107, indicating a VERY_ACTIVE commit cadence. CI is explicitly configured, and the license (Apache\u20112.0) is present. The README references `npm run test`, confirming test infrastructure exists. Open issues count (114) is moderate and manageable given the project's size and active maintenance. No data on stale branches is provided, so we conservatively assume none (0). All major health signals are positive, leading to a high overall score.",
+            "health_score": 94,
+            "grade": "A+",
+            "signals": {
+              "readme_quality": "EXCELLENT",
+              "commit_frequency": "VERY_ACTIVE",
+              "test_presence": true,
+              "stale_branches": 0,
+              "open_issues": 114,
+              "ci_configured": true,
+              "license_present": true
+            },
+            "recommendations": [
+              "Prioritize addressing the 114 open issues to keep the backlog lean and improve issue resolution times.",
+              "Implement periodic branch hygiene checks to ensure no stale branches accumulate, even though none are currently reported.",
+              "Consider adding a brief contribution guide (e.g., CODEOWNERS, CONTRIBUTING.md) to streamline onboarding for new contributors."
+            ],
+            "confidence": 0.9
+          },
+          "error": null
+        },
+        "security_scanner": {
+          "agent_name": "security_scanner",
+          "status": "completed",
+          "duration_ms": 46684,
+          "output": {
+            "reasoning": "Analysis failed \u2014 unable to scan for security vulnerabilities.",
+            "risk_level": "MEDIUM",
+            "findings": [],
+            "scan_coverage": 0.1,
+            "confidence": 0.1
+          },
+          "error": null
+        },
+        "pr_describer": {
+          "agent_name": "pr_describer",
+          "status": "completed",
+          "duration_ms": 10342,
+          "output": {
+            "reasoning": "The diff shows addition of a dark mode toggle feature to the demo page. Evidence includes: 1) New CSS rules targeting `.demo model-viewer`, `#demo-container.night-mode`, and a `.theme-toggle-btn` with hover/active states and icon transitions. 2) Insertion of a button with sun/moon SVG icons inside `#demo-container`. 3) JavaScript that listens for click on the button, stops propagation, and toggles the `night-mode` class on the container. All changes are additive, scoped to the demo container, and do not remove or alter existing functionality. No migration files or schema changes are present. Therefore, the PR is a feature addition, not a bugfix, refactor, security patch, migration, breaking change, docs, or chore.",
+            "classification": "feature",
+            "title": "Add dark mode toggle for functionality and styles",
+            "summary": "The PR adds a day/night toggle button inside the demo container, enabling real\u2011time background and lighting changes without affecting other page elements. It scopes all styling to `#demo-container`, adds smooth CSS transitions for colors, borders, and icon rotation, and includes JavaScript to toggle a `night-mode` class on click.",
+            "changes": {
+              "files_changed": 1,
+              "additions": 114,
+              "deletions": 7
+            },
+            "semantic_tags": [
+              "frontend",
+              "ui",
+              "styling",
+              "demo",
+              "dark-mode",
+              "toggle",
+              "css",
+              "javascript"
+            ],
+            "breaking_changes": false,
+            "migration_detected": false,
+            "confidence": 0.95
+          },
+          "error": null
+        },
+        "dependency_auditor": {
+          "agent_name": "dependency_auditor",
+          "status": "completed",
+          "duration_ms": 0,
+          "output": {
+            "reasoning": "No dependency files were modified in this PR.",
+            "risk_level": "NONE",
+            "dependencies_changed": 0,
+            "findings": [],
+            "confidence": 0.95
+          },
+          "error": null
+        }
+      },
+      "timestamp": "2026-07-09T15:28:39.853151+00:00",
+      "total_duration_ms": 92552
+    },
+    "error": null,
+    "created_at": "2026-07-09T15:27:07.298470+00:00"
   }
 }

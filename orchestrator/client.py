@@ -56,13 +56,39 @@ class OrchestratorClient:
         self._local_agents = {}
 
     def _check_croo_config(self) -> bool:
-        """Check if CROO credentials are configured."""
-        key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
-        has_services = any(
-            os.getenv(cfg["service_id_env"], "")
-            for cfg in AGENT_SERVICES.values()
-        )
-        return bool(key and key.startswith("croo_sk_") and has_services)
+        """Check if CROO credentials are configured and respect environment modes."""
+        app_env = os.getenv("APP_ENV", "development").lower()
+        
+        # In development mode, we can bypass CROO integration if keys are missing or BYPASS_CAP is true
+        if app_env == "development":
+            bypass = os.getenv("BYPASS_CAP", "false").lower() == "true"
+            key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
+            has_services = any(
+                os.getenv(cfg["service_id_env"], "")
+                for cfg in AGENT_SERVICES.values()
+            )
+            use_croo = bool(key and key.startswith("croo_sk_") and has_services) and not bypass
+            if not use_croo:
+                logger.warning("Running in DEVELOPMENT mode: Bypassing CAP integration (local execution).")
+            return use_croo
+            
+        # In production mode, CROO integration is STRICTLY mandatory
+        elif app_env == "production":
+            key = os.getenv("CROO_ORCHESTRATOR_KEY", "")
+            if not key or not key.startswith("croo_sk_"):
+                logger.error("CRITICAL: CROO_ORCHESTRATOR_KEY is missing or invalid in PRODUCTION mode.")
+                raise RuntimeError("CAP Protocol integration is MANDATORY in production.")
+                
+            for agent, cfg in AGENT_SERVICES.items():
+                if not os.getenv(cfg["service_id_env"]):
+                    logger.error(f"CRITICAL: Missing service ID for {agent} in PRODUCTION mode.")
+                    raise RuntimeError(f"Missing mandatory CAP service ID for {agent}")
+                    
+            logger.info("Running in PRODUCTION mode: CAP Protocol enforced.")
+            return True
+            
+        else:
+            raise ValueError(f"Unknown APP_ENV: {app_env}. Use 'development' or 'production'.")
 
     async def initialize(self):
         """Initialize the orchestrator — either CROO or local mode."""
@@ -85,6 +111,9 @@ class OrchestratorClient:
             self.stream = await self.croo_client.connect_websocket()
             logger.info("Orchestrator connected to CROO Network")
         except Exception as e:
+            if os.getenv("APP_ENV", "development").lower() == "production":
+                logger.error(f"CRITICAL: CROO initialization failed in production: {e}")
+                raise RuntimeError(f"CAP initialization failed in production: {e}")
             logger.warning(f"CROO initialization failed, falling back to local mode: {e}")
             self.use_croo = False
             await self._init_local()

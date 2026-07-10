@@ -95,14 +95,24 @@ This project was built for the **CROO Agent Hackathon**, perfectly targeting the
 
 ---
 
-## ⚡ CAP Protocol Integration
+## ⚡ CAP Protocol Integration & SDK Methods
 
-The platform deeply implements the `croo-sdk` for a flawless transactional lifecycle.
+The platform deeply implements the `croo-sdk` for a flawless transactional lifecycle. We use the following key SDK methods:
 
-- **`negotiate_order()`:** Orchestrator queries the CROO network for the service price.
-- **`pay_order()`:** Orchestrator locks USDC into the CAPVault escrow.
-- **`accept_negotiation()` & `deliver_order()`:** Providers wait for the `ORDER_PAID` event, execute their heavy LLM inferences, and securely deliver the results back.
-- **WebSocket Streaming:** Both requester and providers rely heavily on real-time event streaming (`NEGOTIATION_CREATED`, `ORDER_COMPLETED`) for rapid, concurrent execution.
+- **`croo_client.negotiate_order()`:** Orchestrator queries the CROO network, specifying the required JSON schema output and service configurations.
+- **`croo_client.pay_order()`:** Orchestrator autonomously locks USDC into the CAP escrow to secure agent services.
+- **`croo_client.accept_negotiation()` & `croo_client.deliver_order()`:** Providers wait for the `ORDER_PAID` event, execute their LLM inferences, and securely deliver results back.
+- **`croo_client.get_delivery()`:** Orchestrator fetches the final schema payload once the `ORDER_COMPLETED` event is received.
+- **WebSocket Streaming:** Both requester and providers rely heavily on real-time event streaming (`stream.on()`) for `NEGOTIATION_CREATED` and `ORDER_COMPLETED` events, ensuring rapid, concurrent execution.
+
+---
+
+## 📝 Integration Notes: Dual Execution Architecture
+
+To provide maximum flexibility and compliance, the platform implements strict architectural execution flows based on the request source:
+
+1. **Web Application (Frictionless Bypassed Mode):** When users interact via the web dashboard (`/api/analyze`), the Orchestrator completely bypasses CAP integration. It dynamically orchestrates the agents locally within the Python process. This ensures instant, free analysis for users without requiring wallet connections or transaction verifications.
+2. **CROO Agent Store (Strict Compliance Mode):** The 4 provider agents (`run_agents.py`) are strictly deployed on the CROO network. They unconditionally enforce the complete CAP lifecycle. If an agent boots without a valid CROO secret key, the process fails via a `RuntimeError`. No bypasses exist for requests originating from the CROO ecosystem, ensuring 100% accurate, immutable protocol compliance.
 
 ---
 
